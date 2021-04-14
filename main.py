@@ -1,4 +1,5 @@
 import pygame, sys
+from classes import *
 
 SIZE = WIDTH, HEIGHT = 960, 640
 BLACK = 0, 0, 0
@@ -10,10 +11,7 @@ def main():
 
     pygame.init()
     screen = pygame.display.set_mode(SIZE)
-    initialp1 = [WIDTH/2, HEIGHT/2]
-    initialp2 = [WIDTH/2 - 10,HEIGHT/2 + 20]
-    initialp3 = [WIDTH/2 + 10,HEIGHT/2 + 20]
-    player_initial_position = [initialp1, initialp2, initialp3]
+    player = PlayerObject(WIDTH, HEIGHT)
 
     while True:
 
@@ -21,8 +19,9 @@ def main():
             
             if event.type==pygame.QUIT: sys.exit()
 
+        player_vertices = player.get_vertices()
         screen.fill(BLACK)
-        pygame.draw.polygon(screen, WHITE, player_initial_position)
+        pygame.draw.polygon(screen, WHITE, player_vertices)
         pygame.display.flip()
 
 if __name__ == "__main__":
