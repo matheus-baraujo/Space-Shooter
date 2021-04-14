@@ -41,16 +41,14 @@ def main():
                     player.directions[2] = 0
                 if event.key == pygame.K_d:
                     player.directions[3] = 0
+
             elif event.type == pygame.MOUSEMOTION:
-                mouse_x = pygame.mouse.get_pos()[0]
-                mouse_y = pygame.mouse.get_pos()[1]
-                angle = math.atan2(mouse_y - player.y, mouse_x - player.x)
-                angle = angle * (180 / math.pi)
-                player.rotate(angle)
+                player.rotate()
 
         player_vertices = player.get_vertices()
         screen.fill(BLACK)
         pygame.draw.polygon(screen, WHITE, player_vertices)
+        player.moves()
         pygame.display.flip()
 
 if __name__ == "__main__":
