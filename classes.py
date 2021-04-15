@@ -69,9 +69,11 @@ class Spacecraft():
         by anyamount.
         '''
         
-        self.x, self.y += displacement_x, displacement_y
+        self.x += displacement_x
+        self.y += displacement_y
         for vertex in self.vertices:
-            vertex[0], vertex[1] += displacement_x, displacement_y
+            vertex[0] += displacement_x
+            vertex[1] += displacement_y
             vertex[0] %= WIDTH
             vertex[0] %= HEIGHT
             
