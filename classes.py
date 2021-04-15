@@ -32,8 +32,8 @@ class Spacecraft():
         angle_speed will work as speed for the angle.
         '''
         
-        self.position = self.x, self.y = x_position, y_position
-        self.vertices = shape_function(self.position)
+        self.x, self.y = x_position, y_position
+        self.vertices = shape_function(self.x, self.y)
         self.life = life
         self.speed = speed
         self.angle = angle
@@ -59,18 +59,19 @@ class Spacecraft():
 
         self.life -= hitpoints
 
-    def translate_spacecraft(self, displacement):
+    def translate_spacecraft(self, displacement_x, displacement_y):
 
         '''
         This method translate all the vertices of a spacecraft.
-        It also translates the position.
+        It also translates self.x and self.y.
         Note that while self.speed determines how much a spacecraft will move, it's only used in
         the method that calculates the displacement. Meaning that this method can displace a spacecraft
         by anyamount.
         '''
-
+        
+        self.x, self.y += displacement_x, displacement_y
         for vertex in self.vertices:
-            vertex[0], vertex[1] += displacement[0], displacement[1]
+            vertex[0], vertex[1] += displacement_x, displacement_y
             vertex[0] %= WIDTH
             vertex[0] %= HEIGHT
             
@@ -112,7 +113,7 @@ class Player(Spacecraft):
         if self.directions[0] or self.directions[1] or self.directions[2] or self.directions[3]:
             displacement_y += (self.directions[0] - self.directions[1])*self.speed
             displacement_x += (self.directions[2] - self.directions[3])*self.speed
-        self.translate_spacecraft((displacement_x, displacement_y))
+        self.translate_spacecraft(displacement_x, displacement_y)
         
             
     def rotate(self):
