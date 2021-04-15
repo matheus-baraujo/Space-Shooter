@@ -1,5 +1,7 @@
 import pygame, sys
 from classes import *
+from constants import *
+from shapes import *
 
 
 def main():
@@ -7,7 +9,7 @@ def main():
 
     pygame.init()
     screen = pygame.display.set_mode(SIZE)
-    player = Player(WIDTH, HEIGHT) # This is not functional anymore
+    player = Player(shape1, WHITE) 
 
     while True:
 
@@ -44,7 +46,7 @@ def main():
         player_vertices = player.get_vertices()
         screen.fill(BLACK)
         pygame.draw.polygon(screen, WHITE, player_vertices)
-        player.moves()
+        player.move()
         pygame.display.flip()
 
 if __name__ == "__main__":

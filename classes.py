@@ -1,5 +1,6 @@
 import pygame
 import sys
+import math
 from constants import *
 
 
@@ -38,7 +39,7 @@ class Spacecraft():
         self.speed = speed
         self.angle = angle
         self.angle_speed = angle_speed
-        self.rotate_vertices(self.angle)
+        self.rotate_spacecraft(self.angle)
 
     def is_dead(self):
 
@@ -90,7 +91,7 @@ class Spacecraft():
         for vertex in self.vertices:
             relative_x, relative_y = vertex[0] - self.x, vertex[1] - self.y
             relative_x, relative_y = cos*relative_x - sin*relative_y, sin*relative_x + cos*relative_y
-            vertex[0], vertex[1] = relative_x + self.x, relative_y + self,y
+            vertex[0], vertex[1] = relative_x + self.x, relative_y + self.y
         self.angle += angular_displacement % (2*math.pi)
 
     def get_vertices(self):
@@ -107,7 +108,7 @@ class Player(Spacecraft):
 
     def __init__(self, shape_function, color):
 
-        Spacecraft.__init__(PLAYERX, PLAYERY, PLAYER_LIFE, PLAYER_SPEED, shape_function, color, PLAYER_ANGLE_SPEED, PLAYER_ANGLE)
+        Spacecraft.__init__(self, PLAYERX, PLAYERY, PLAYER_LIFE, PLAYER_SPEED, shape_function, color, PLAYER_ANGLE_SPEED, PLAYER_ANGLE)
         self.directions = [0, 0, 0, 0] # UP, DOWN, RIGHT, LEFT
 
     def move(self):
@@ -115,7 +116,7 @@ class Player(Spacecraft):
         if self.directions[0] or self.directions[1] or self.directions[2] or self.directions[3]:
             displacement_y += (self.directions[0] - self.directions[1])*self.speed
             displacement_x += (self.directions[2] - self.directions[3])*self.speed
-        self.translate_spacecraft(displacement_x, displacement_y)
+            self.translate_spacecraft(displacement_x, displacement_y)
         
             
     def rotate(self):
