@@ -72,11 +72,9 @@ class Spacecraft():
         
         self.x += displacement_x
         self.y += displacement_y
-        '''for vertex in self.vertices:
-            vertex[0] += displacement_x
-            vertex[1] += displacement_y
-            vertex[0] %= WIDTH
-            vertex[0] %= HEIGHT'''
+        for vertex in self.vertices:
+            vertex[0] = (vertex[0] + displacement_x) % WIDTH
+            vertex[1] = (vertex[1] + displacement_y) % HEIGHT
             
     def rotate_spacecraft(self, angular_displacement):
 
@@ -114,8 +112,8 @@ class Player(Spacecraft):
     def move(self):
 
         if self.directions[0] or self.directions[1] or self.directions[2] or self.directions[3]:
-            displacement_y = (self.directions[0] - self.directions[1])*self.speed
-            displacement_x = (self.directions[2] - self.directions[3])*self.speed
+            displacement_y += (self.directions[0] - self.directions[1])*self.speed
+            displacement_x += (self.directions[2] - self.directions[3])*self.speed
             self.translate_spacecraft(displacement_x, displacement_y)
         
             
