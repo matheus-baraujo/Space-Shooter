@@ -7,7 +7,7 @@ def main():
 
     pygame.init()
     screen = pygame.display.set_mode(SIZE)
-    player = PlayerObject(WIDTH, HEIGHT)
+    player = Player(WIDTH, HEIGHT) # This is not functional anymore
 
     while True:
 

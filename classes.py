@@ -12,7 +12,7 @@ class Spacecraft():
     have to display.
     '''
 
-    def __init__(self, x_position, y_position, life, speed, shape_function, color, angle_speed, angle = 0):
+    def __init__(self, x_position, y_position, life, speed, shape_function, color, angle_speed, angle):
 
         '''
         The x_position and y_position will be the coordenates of the center of the spacecraft.
@@ -59,10 +59,11 @@ class Spacecraft():
 
         self.life -= hitpoints
 
-    def translate_vertices(self, displacement):
+    def translate_spacecraft(self, displacement):
 
         '''
         This method translate all the vertices of a spacecraft.
+        It also translates the position.
         Note that while self.speed determines how much a spacecraft will move, it's only used in
         the method that calculates the displacement. Meaning that this method can displace a spacecraft
         by anyamount.
@@ -73,7 +74,7 @@ class Spacecraft():
             vertex[0] %= WIDTH
             vertex[0] %= HEIGHT
             
-    def rotate_vertices(self, angular_displacement):
+    def rotate_spacecraft(self, angular_displacement):
 
         '''
         This method uses linear algebra to rotate the vertices by an angular_displacement using
@@ -98,43 +99,25 @@ class Spacecraft():
         return self.vertices
 
 
-class PlayerObject():
+class Player(Spacecraft):
 
 
-    def __init__(self, width, height):
+    def __init__(self, shape_function, color):
 
-        initial_vertex1 = [width/2, height/2]
-        initial_vertex2 = [width/2 - 10,height/2 + 20]
-        initial_vertex3 = [width/2 + 10,height/2 + 20]
-        self.vertices = [initial_vertex1, initial_vertex2, initial_vertex3]
-        self.life = 5
+        Spacecraft.__init__(PLAYERX, PLAYERY, PLAYER_LIFE, PLAYER_SPEED, shape_function, color, PLAYER_ANGLE_SPEED, PLAYER_ANGLE)
+        self.directions = [0, 0, 0, 0] # UP, DOWN, RIGHT, LEFT
 
-        self.surface = pygame.image.load() #adicionar uma imagem pra ser o player
-        self.rotated_surface = self.surface.copy()
-        self.directions = [False, False, False, False] # UP, DOWN, RIGHT, LEFT
-        self.speed = 0.1
+    def move(self):
 
-    def is_dead(self):
-
-        if self.life < 1:
-            return False
-        else:
-            return True
-
-    def moves(self):
-        if self.directions[0] || self.directions[1] or self.directions[2] || self.directions[3]:
-            self.y += (self.directions[0] - self.directions[1])*self.speed
-            self.x += (self.directions[2] - self.directions[3])*self.speed
+        if self.directions[0] or self.directions[1] or self.directions[2] or self.directions[3]:
+            displacement_y += (self.directions[0] - self.directions[1])*self.speed
+            displacement_x += (self.directions[2] - self.directions[3])*self.speed
+        self.translate_spacecraft((displacement_x, displacement_y))
+        
             
     def rotate(self):
+
         mouse_x, mouse_y = pygame.mouse.get_pos()
         rel_x, rel_y = mouse_x - self.x, mouse_y - self.y
-        angle = (180 / math.pi) * -math.atan2(rel_y, rel_x)
-        self.image = pygame.transform.rotate(self.original_image, int(angle))
-        self.rect = self.image.get_rect(center=self.position)       
-            
-    def get_vertices(self):
-        return self.vertices
-
-    def update_vertices(self, new_vertices):
-        self.vertices = new_vertices  
+        angular_displacement = (180 / math.pi) * -math.atan2(rel_y, rel_x)
+        self.rotate_spacecraft(angular_displacement)
