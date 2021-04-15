@@ -46,7 +46,7 @@ def main():
         player_vertices = player.get_vertices()
         screen.fill(BLACK)
         pygame.draw.polygon(screen, WHITE, player_vertices)
-        player.moves()
+        player.move()
         pygame.display.flip()
 
 if __name__ == "__main__":
