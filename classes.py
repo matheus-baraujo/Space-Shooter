@@ -86,9 +86,9 @@ class Spacecraft():
         cos = math.cos(angular_displacement)
         sin = math.sin(angular_displacement)
         for vertex in self.vertices:
-            relativex, relativey = vertex[0] - self.x, vertex[1] - self.y
-            relativex, relativey = cos*relativex - sin*relativey, sin*relativex + cos*relativey
-            vertex[0], vertex[1] = relativex + self.x, relativey + self,y
+            relative_x, relative_y = vertex[0] - self.x, vertex[1] - self.y
+            relative_x, relative_y = cos*relative_x - sin*relative_y, sin*relative_x + cos*relative_y
+            vertex[0], vertex[1] = relative_x + self.x, relative_y + self,y
         self.angle += angular_displacement % (2*math.pi)
 
     def get_vertices(self):
