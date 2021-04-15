@@ -1,5 +1,7 @@
 import pygame, sys
 from classes import *
+from constants import *
+from shapes import *
 
 
 def main():
@@ -7,7 +9,7 @@ def main():
 
     pygame.init()
     screen = pygame.display.set_mode(SIZE)
-    player = Player(WIDTH, HEIGHT) # This is not functional anymore
+    player = Player(shape1, WHITE) 
 
     while True:
 
