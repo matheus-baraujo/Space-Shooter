@@ -29,6 +29,7 @@ def main():
                     player.directions[2] = 1
                 if event.key == pygame.K_d:
                     player.directions[3] = 1
+                player.move()        
 
             elif event.type == pygame.KEYUP: #buttons not pressed
                 if event.key == pygame.K_w:
@@ -46,7 +47,7 @@ def main():
         player_vertices = player.get_vertices()
         screen.fill(BLACK)
         pygame.draw.polygon(screen, WHITE, player_vertices)
-        player.move()
+        
         pygame.display.flip()
 
 if __name__ == "__main__":
