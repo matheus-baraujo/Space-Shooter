@@ -116,12 +116,11 @@ class Player(Spacecraft):
             displacement_x = -(self.directions[2] - self.directions[3])*self.speed
             self.translate_spacecraft(displacement_x, displacement_y)
         
-            
     def rotate(self):
 
         mouse_x, mouse_y = pygame.mouse.get_pos()
         rel_x, rel_y = mouse_x - self.x, mouse_y - self.y
         rel_x2, rel_y2 = self.vertices[0][0] - self.x, self.vertices[0][1] - self.y
-        rel_x3, rel_y3 = rel_x2 - rel_x, rel_y2 - rel_y
-        angular_displacement = (180 / math.pi) * math.atan2(rel_y3, rel_x3)
+        
+        angular_displacement = (180 / math.pi) * -(math.atan2(rel_y2, rel_x2) - math.atan2(rel_y, rel_x))
         self.rotate_spacecraft(angular_displacement)
