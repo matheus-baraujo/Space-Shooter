@@ -157,4 +157,3 @@ class Player(Spacecraft):
 
         self.move()
         self.rotate()
-        self.draw()
