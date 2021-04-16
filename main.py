@@ -18,35 +18,11 @@ def main():
             if event.type==pygame.QUIT: 
                 sys.exit()
 
-            elif event.type == pygame.KEYDOWN: #buttons pressed
-                if event.key == pygame.K_ESCAPE:
-                    sys.exit()
-                if event.key == pygame.K_w:
-                    player.directions[0] = 1
-                if event.key == pygame.K_s:
-                    player.directions[1] = 1
-                if event.key == pygame.K_a:
-                    player.directions[2] = 1
-                if event.key == pygame.K_d:
-                    player.directions[3] = 1       
+            player.get_keyboard_input(event)
 
-            elif event.type == pygame.KEYUP: #buttons not pressed
-                if event.key == pygame.K_w:
-                    player.directions[0] = 0
-                if event.key == pygame.K_s:
-                    player.directions[1] = 0
-                if event.key == pygame.K_a:
-                    player.directions[2] = 0
-                if event.key == pygame.K_d:
-                    player.directions[3] = 0
-
-            elif event.type == pygame.MOUSEMOTION:
-                player.rotate()
-
-        player_vertices = player.get_vertices()
+        player.update()
         screen.fill(BLACK)
-        pygame.draw.polygon(screen, WHITE, player_vertices)
-        player.move() 
+        player.draw(screen)
         pygame.display.flip()
 
 if __name__ == "__main__":
