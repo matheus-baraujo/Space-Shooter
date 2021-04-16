@@ -152,3 +152,9 @@ class Player(Spacecraft):
         angular_displacement = math.atan2(rel_x2, rel_y2) - math.atan2(rel_x, rel_y)
         angular_displacement *= self.angle_speed
         self.rotate_spacecraft(angular_displacement)
+
+    def update(self):
+
+        self.move()
+        self.rotate()
+        self.draw()
