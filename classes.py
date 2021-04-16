@@ -151,10 +151,9 @@ class Player(Spacecraft):
         mouse_x, mouse_y = pygame.mouse.get_pos()
         rel_x, rel_y = mouse_x - self.x, mouse_y - self.y
         rel_x2, rel_y2 = self.vertices[0][0] - self.x, self.vertices[0][1] - self.y
-        
-        #angular_displacement = (180 / math.pi) * -(math.atan2(rel_y2, rel_x2) - math.atan2(rel_y, rel_x))
+
         angular_displacement = math.atan2(rel_x2, rel_y2) - math.atan2(rel_x, rel_y)
-        angular_displacement *= self.angle_speed
+        angular_displacement *= self.angleS_speed
         self.rotate_spacecraft(angular_displacement)
 
     def update(self):
