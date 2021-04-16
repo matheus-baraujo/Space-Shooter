@@ -100,6 +100,10 @@ class Spacecraft():
 
         return self.vertices
 
+    def draw(self, screen):
+
+        pygame.draw.polygon(screen, self.color, self.vertices)
+
 
 class Player(Spacecraft):
 
