@@ -40,6 +40,7 @@ class Spacecraft():
         self.angle = angle
         self.angle_speed = angle_speed
         self.rotate_spacecraft(self.angle)
+        self.color = color
 
     def is_dead(self):
 
