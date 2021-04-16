@@ -113,14 +113,37 @@ class Player(Spacecraft):
         Spacecraft.__init__(self, PLAYERX, PLAYERY, PLAYER_LIFE, PLAYER_SPEED, shape_function, color, PLAYER_ANGLE_SPEED, PLAYER_ANGLE)
         self.directions = [0, 0, 0, 0] # UP, DOWN, RIGHT, LEFT
 
+    def get_keyboard_input(self, event):
+
+        if event.type == pygame.KEYDOWN: #buttons pressed
+            if event.key == pygame.K_ESCAPE:
+                sys.exit()
+            if event.key == pygame.K_w:
+                player.directions[0] = 1
+            if event.key == pygame.K_s:
+                player.directions[1] = 1
+            if event.key == pygame.K_a:
+                player.directions[2] = 1
+            if event.key == pygame.K_d:
+                player.directions[3] = 1       
+
+        elif event.type == pygame.KEYUP: #buttons not pressed
+            if event.key == pygame.K_w:
+                player.directions[0] = 0
+            if event.key == pygame.K_s:
+                player.directions[1] = 0
+            if event.key == pygame.K_a:
+                player.directions[2] = 0
+            if event.key == pygame.K_d:
+                player.directions[3] = 0
+
     def move(self):
 
         if self.directions[0] or self.directions[1] or self.directions[2] or self.directions[3]:
             displacement_y = -(self.directions[0] - self.directions[1])*self.speed
             displacement_x = -(self.directions[2] - self.directions[3])*self.speed
             self.translate_spacecraft(displacement_x, displacement_y)
-        
-            
+       
     def rotate(self):
 
         mouse_x, mouse_y = pygame.mouse.get_pos()
