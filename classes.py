@@ -120,23 +120,23 @@ class Player(Spacecraft):
             if event.key == pygame.K_ESCAPE:
                 sys.exit()
             if event.key == pygame.K_w:
-                player.directions[0] = 1
+                self.directions[0] = 1
             if event.key == pygame.K_s:
-                player.directions[1] = 1
+                self.directions[1] = 1
             if event.key == pygame.K_a:
-                player.directions[2] = 1
+                self.directions[2] = 1
             if event.key == pygame.K_d:
-                player.directions[3] = 1       
+                self.directions[3] = 1       
 
         elif event.type == pygame.KEYUP: #buttons not pressed
             if event.key == pygame.K_w:
-                player.directions[0] = 0
+                self.directions[0] = 0
             if event.key == pygame.K_s:
-                player.directions[1] = 0
+                self.directions[1] = 0
             if event.key == pygame.K_a:
-                player.directions[2] = 0
+                self.directions[2] = 0
             if event.key == pygame.K_d:
-                player.directions[3] = 0
+                self.directions[3] = 0
 
     def move(self):
 
