@@ -73,8 +73,8 @@ class Spacecraft():
         self.x += displacement_x
         self.y += displacement_y
         for vertex in self.vertices:
-            vertex[0] = (vertex[0] + displacement_x) % WIDTH
-            vertex[1] = (vertex[1] + displacement_y) % HEIGHT
+            vertex[0] = (vertex[0] + displacement_x)
+            vertex[1] = (vertex[1] + displacement_y)
             
     def rotate_spacecraft(self, angular_displacement):
 
@@ -123,4 +123,5 @@ class Player(Spacecraft):
         rel_x, rel_y = mouse_x - self.x, mouse_y - self.y
         rel_x2, rel_y2 = self.vertices[0][0] - self.x, self.vertices[0][1] - self.y
         angular_displacement = math.atan2(rel_x2, rel_y2) - math.atan2(rel_x, rel_y)
+        angular_displacement *= self.angle_speed
         self.rotate_spacecraft(angular_displacement)
