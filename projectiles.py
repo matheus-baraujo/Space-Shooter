@@ -24,7 +24,8 @@ class projectile():
         self.position[1] += self.direction[1]*self.speed
 
     def projectiles_update(array):
+        
         for bullets in array:
             bullets.projectile_move(self)
-            bullets.projectile_draw(self)
+            bullets.projectile_draw(self, screen)
 

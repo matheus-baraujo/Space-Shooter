@@ -139,10 +139,10 @@ class Player(Spacecraft):
             if event.key == pygame.K_d:
                 self.directions[3] = 0
 
-    def get_mouse_input(self, event):
+    def get_mouse_input(self, event, array):
 
         if event.type == pygame.MOUSEBUTTONDOWN:
-            self.shoot()           
+            self.shoot(array)           
 
     def move(self):
 
@@ -167,7 +167,10 @@ class Player(Spacecraft):
         self.move()
         self.rotate()
 
-    def shoot(self):
+    def shoot(self, array):
+
+        ''' this function creates a bullet in front of the ship, providing it with speed, direction and size '''
 
         direction = self.vertices[0][0] - self.x, self.vertices[0][1] - self.y
-        projectile(self.vertices[0], PROJECTILE_SPEED, WHITE, PROJECTILE_RADIUS, direction)    
+        bullet = projectile(self.vertices[0], PROJECTILE_SPEED, WHITE, PROJECTILE_RADIUS, direction)   
+        array.append(projectile) 

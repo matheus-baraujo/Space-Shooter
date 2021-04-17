@@ -20,7 +20,7 @@ def main():
                 sys.exit()
 
             player.get_keyboard_input(event)
-            player.get_mouse_input(event)
+            player.get_mouse_input(event, player_projectiles)
 
         player.update()
         screen.fill(BLACK)
