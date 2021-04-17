@@ -2,6 +2,7 @@ import pygame
 import sys
 import math
 from constants import *
+from projectiles import *
 
 
 class Spacecraft():
@@ -138,6 +139,11 @@ class Player(Spacecraft):
             if event.key == pygame.K_d:
                 self.directions[3] = 0
 
+    def get_mouse_input(self, event):
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            self.shoot()           
+
     def move(self):
 
         if self.directions[0] or self.directions[1] or self.directions[2] or self.directions[3]:
@@ -153,10 +159,15 @@ class Player(Spacecraft):
         rel_x2, rel_y2 = self.vertices[0][0] - self.x, self.vertices[0][1] - self.y
 
         angular_displacement = math.atan2(rel_x2, rel_y2) - math.atan2(rel_x, rel_y)
-        angular_displacement *= self.angleS_speed
+        angular_displacement *= self.angle_speed
         self.rotate_spacecraft(angular_displacement)
 
     def update(self):
 
         self.move()
         self.rotate()
+
+    def shoot(self):
+
+        direction = self.vertices[0][0] - self.x, self.vertices[0][1] - self.y
+        projectile(self.vertices[0], PROJECTILE_SPEED, WHITE, PROJECTILE_RADIUS, direction)    
