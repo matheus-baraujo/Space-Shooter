@@ -4,7 +4,7 @@ import math
 from constants import *
 
 
-class projectile():
+class Projectile():
 
     def __init__(self, position, speed, color, radius, direction):
 
@@ -23,9 +23,26 @@ class projectile():
         self.position[0] += self.direction[0]*self.speed  
         self.position[1] += self.direction[1]*self.speed
 
-    def projectiles_update(array):
+    def update(self, screen):
         
-        for bullets in array:
-            bullets.projectile_move(self)
-            bullets.projectile_draw(self, screen)
+        self.projectile_move()
+        self.projectile_draw(screen)
+
+
+class Sprites():
+
+
+    def __init__(self):
+
+        self.projectiles = []
+        self.enemeies = []
+
+    def add_projectile(self, position, direction):
+
+        self.projectiles.append(Projectile(position, PROJECTILE_SPEED, YELLOW, PROJECTILE_RADIUS, direction))
+
+    def update(self, screen):
+
+        for projectile in self.projectiles:
+            projectile.update(screen)
 

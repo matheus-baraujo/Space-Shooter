@@ -167,10 +167,9 @@ class Player(Spacecraft):
         self.move()
         self.rotate()
 
-    def shoot(self, array):
+    def shoot(self, sprites_object):
 
         ''' this function creates a bullet in front of the ship, providing it with speed, direction and size '''
 
         direction = self.vertices[0][0] - self.x, self.vertices[0][1] - self.y
-        bullet = projectile(self.vertices[0], PROJECTILE_SPEED, WHITE, PROJECTILE_RADIUS, direction)   
-        array.append(projectile) 
+        sprites_object.add_projectile(self.vertices[0][:], direction)
