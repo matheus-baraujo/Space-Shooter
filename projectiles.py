@@ -26,6 +26,6 @@ class projectile():
     def projectiles_update(array):
         
         for bullets in array:
-            bullets.projectile_move(self)
-            bullets.projectile_draw(self, screen)
+            bullets.projectile_move()
+            bullets.projectile_draw(screen)
 
