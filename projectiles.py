@@ -29,7 +29,7 @@ class Projectile():
         self.projectile_draw()
 
 
-class Objects():
+class Sprites():
 
 
     def __init__(self):
