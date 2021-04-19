@@ -172,4 +172,4 @@ class Player(Spacecraft):
         ''' this function creates a bullet in front of the ship, providing it with speed, direction and size '''
 
         direction = self.vertices[0][0] - self.x, self.vertices[0][1] - self.y
-        sprites_object.add_projectile(self.vertices[0], direction)
+        sprites_object.add_projectile(self.vertices[0][:], direction)

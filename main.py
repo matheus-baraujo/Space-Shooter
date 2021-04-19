@@ -10,7 +10,7 @@ def main():
     pygame.init()
     screen = pygame.display.set_mode(SIZE)
     player = Player(shape1, WHITE) 
-    player_projectiles = []
+    sprites_object = Sprites()
 
     while True:
 
@@ -20,12 +20,14 @@ def main():
                 sys.exit()
 
             player.get_keyboard_input(event)
-            player.get_mouse_input(event, player_projectiles)
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                player.shoot(sprites_object)  
 
         player.update()
         screen.fill(BLACK)
         player.draw(screen)
-        projectile.projectiles_update(player_projectiles)
+        sprites_object.update(screen)
         pygame.display.flip()
 
 if __name__ == "__main__":

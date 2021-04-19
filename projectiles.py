@@ -23,10 +23,10 @@ class Projectile():
         self.position[0] += self.direction[0]*self.speed  
         self.position[1] += self.direction[1]*self.speed
 
-    def update(array):
+    def update(self, screen):
         
         self.projectile_move()
-        self.projectile_draw()
+        self.projectile_draw(screen)
 
 
 class Sprites():
@@ -34,15 +34,15 @@ class Sprites():
 
     def __init__(self):
 
-        projectiles = []
-        enemeys = []
+        self.projectiles = []
+        self.enemeies = []
 
-    def add_projectile(self, position, direction)
+    def add_projectile(self, position, direction):
 
-        projectiles.append(Projectile(position, PROJECTILE_SPEED, YELLOW, PROJECTILE_RADIUS, direction))
+        self.projectiles.append(Projectile(position, PROJECTILE_SPEED, YELLOW, PROJECTILE_RADIUS, direction))
 
-    def update(self):
+    def update(self, screen):
 
-        for projectile in projectiles:
-            projectile.update()
+        for projectile in self.projectiles:
+            projectile.update(screen)
 
