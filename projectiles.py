@@ -15,7 +15,7 @@ class projectile():
         self.direction = direction
 
     def projectile_draw(self, screen):
-
+        
         pygame.draw.circle(screen, self.color, self.position, self.radius)
 
     def projectile_move(self):
