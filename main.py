@@ -1,27 +1,35 @@
 import pygame, sys
 from classes import *
-
-SIZE = WIDTH, HEIGHT = 960, 640
-BLACK = 0, 0, 0
-WHITE = 255, 255, 255
-
+from constants import *
+from shapes import *
+from projectiles import *
 
 def main():
 
 
     pygame.init()
     screen = pygame.display.set_mode(SIZE)
-    player = PlayerObject(WIDTH, HEIGHT)
+    player = Player(shape1, WHITE) 
+    sprite_holder = Sprites()
 
     while True:
 
         for event in pygame.event.get():
             
-            if event.type==pygame.QUIT: sys.exit()
+            if event.type==pygame.QUIT: 
+                sys.exit()
 
-        player_vertices = player.get_vertices()
+            player.get_keyboard_input(event)
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                projectile = player.shoot(PROJECTILE_SPEED, YELLOW)
+                sprite_holder.add_projectile(projectile)
+
+        player.update()
+        sprite_holder.update()
         screen.fill(BLACK)
-        pygame.draw.polygon(screen, WHITE, player_vertices)
+        player.draw(screen)
+        sprite_holder.draw(screen)
         pygame.display.flip()
 
 if __name__ == "__main__":
