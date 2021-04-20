@@ -3,12 +3,13 @@ from classes import *
 from constants import *
 from shapes import *
 from projectiles import *
+from screens import *
 
 def main():
 
-
     pygame.init()
     screen = pygame.display.set_mode(SIZE)
+    start_screen(screen)
     player = Player(shape1, WHITE) 
     sprites_object = Sprites()
 
