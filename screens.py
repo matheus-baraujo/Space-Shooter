@@ -14,7 +14,7 @@ def start_screen(screen):
     star_field_slow = []
     star_field_medium = []
     star_field_fast = []
-    #star_field_comets = []
+    star_field_shooting = []
 
     for slow_stars in range(60): #creating the locations of the stars
         star_loc_x = random.randrange(0, width)
@@ -31,19 +31,27 @@ def start_screen(screen):
         star_loc_y = random.randrange(0, height)
         star_field_fast.append([star_loc_x, star_loc_y])
     
+    for shooting_stars in range(1):
+        star_loc_x = random.randrange(0, width)
+        star_loc_y = random.randrange(0, height)
+        star_field_shooting.append([star_loc_x, star_loc_y])
+
     running = True
 
     while running:
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+            if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 running = False 
                 #quit 
-                pygame.quit()
+                sys.exit() 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
                 #passes to the next screen
                 running = False 
 
         screen.fill(BLACK)
+
+        image = pygame.image.load(r'resources/logo.png')
+        screen.blit(image, (WIDTH/3.5, HEIGHT/4))
 
         #animating the background with stars
         for star in star_field_slow:
@@ -66,6 +74,17 @@ def start_screen(screen):
                 star[0] = random.randrange(0, width)
                 star[1] = random.randrange(-20, -5)
             pygame.draw.circle(screen, YELLOW, star, 1)
+
+        for star in star_field_shooting:
+            star[0] += 16
+            star[1] += 16
+            if star[0] > width:
+                star[0] = random.randrange(-20, -5)
+                star[1] = random.randrange(0, height)
+            if star[1] > height:
+                star[0] = random.randrange(0, width)
+                star[1] = random.randrange(-20, -5)
+            pygame.draw.circle(screen, MAGENTA, star, 1)    
 
         #redraw everything we've asked pygame to draw
         pygame.display.flip()
