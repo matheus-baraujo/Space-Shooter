@@ -6,27 +6,30 @@ from constants import *
 
 class Projectile():
 
-    def __init__(self, position, speed, color, radius, direction):
+    def __init__(self, x_position, y_position, speed, color, radius, direction):
 
-        self.position = position
+        self.x = x_position
+        self.y = y_position
         self.speed = speed
         self.color = color
         self.radius = radius 
         self.direction = direction
 
-    def projectile_draw(self, screen):
+    def draw(self, screen):
 
-        pygame.draw.circle(screen, self.color, self.position, self.radius)
+        pygame.draw.circle(screen, self.color, (self.x, self.y), self.radius)
 
-    def projectile_move(self):
+    def move(self):
 
-        self.position[0] += self.direction[0]*self.speed  
-        self.position[1] += self.direction[1]*self.speed
+        self.x += self.direction[0] * self.speed  
+        self.y += self.direction[1] * self.speed
 
-    def update(self, screen):
-        
-        self.projectile_move()
-        self.projectile_draw(screen)
+    def is_out_of_bound(self):
+
+        if self.x<0 or self.x>WIDTH or self.y<0 or self.y>HEIGHT:
+            return True
+        else:
+            return False
 
 
 class Sprites():
@@ -37,12 +40,26 @@ class Sprites():
         self.projectiles = []
         self.enemeies = []
 
-    def add_projectile(self, position, direction):
+    def add_projectile(self, x_position, y_position, direction):
 
-        self.projectiles.append(Projectile(position, PROJECTILE_SPEED, YELLOW, PROJECTILE_RADIUS, direction))
+        self.projectiles.append(Projectile(x_position, y_position, PROJECTILE_SPEED, YELLOW, PROJECTILE_RADIUS, direction))
 
-    def update(self, screen):
+    def update(self):
+
+        print(self.projectiles)
 
         for projectile in self.projectiles:
-            projectile.update(screen)
+
+            projectile.move()
+            if projectile.is_out_of_bound():
+                self.projectiles.remove(projectile)
+                del projectile
+
+    def draw(self, screen):
+
+        for projectile in self.projectiles:
+
+            projectile.draw(screen)
+
+
 
