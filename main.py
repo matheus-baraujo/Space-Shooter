@@ -22,7 +22,8 @@ def main():
             player.get_keyboard_input(event)
 
             if event.type == pygame.MOUSEBUTTONDOWN:
-                player.shoot(sprite_holder)  
+                projectile = player.shoot(PROJECTILE_SPEED, YELLOW)
+                sprite_holder.add_projectile(projectile)
 
         player.update()
         sprite_holder.update()
