@@ -9,6 +9,7 @@ def main():
 
     pygame.init()
     screen = pygame.display.set_mode(SIZE)
+    pygame.display.set_caption("Space Shooter v1.0")
     start_screen(screen)
     player = Player(shape1, WHITE) 
     sprites_object = Sprites()

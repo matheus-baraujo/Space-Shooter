@@ -50,9 +50,6 @@ def start_screen(screen):
 
         screen.fill(BLACK)
 
-        image = pygame.image.load(r'resources/logo.png')
-        screen.blit(image, (WIDTH/3.5, HEIGHT/4))
-
         #animating the background with stars
         for star in star_field_slow:
             star[1] += 1
@@ -86,10 +83,16 @@ def start_screen(screen):
                 star[1] = random.randrange(-20, -5)
             pygame.draw.circle(screen, MAGENTA, star, 1)    
 
+        image = pygame.image.load(r'resources/logo.png')
+        screen.blit(image, (WIDTH/3.5, HEIGHT/4))
+
         #redraw everything we've asked pygame to draw
         pygame.display.flip()
 
         #set frames per second
         clock.tick(30)
+
+
+#def personalization_screen(screen):
 
     
