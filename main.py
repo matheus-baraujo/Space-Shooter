@@ -28,7 +28,7 @@ def main():
         sprite_holder.update()
         screen.fill(BLACK)
         player.draw(screen)
-        sprites_object.draw(screen)
+        sprite_holder.draw(screen)
         pygame.display.flip()
 
 if __name__ == "__main__":

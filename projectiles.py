@@ -46,8 +46,6 @@ class Sprites():
 
     def update(self):
 
-        print(self.projectiles)
-
         for projectile in self.projectiles:
 
             projectile.move()
