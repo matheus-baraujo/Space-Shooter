@@ -40,9 +40,9 @@ class Sprites():
         self.projectiles = []
         self.enemeies = []
 
-    def add_projectile(self, x_position, y_position, direction):
+    def add_projectile(self, projectile):
 
-        self.projectiles.append(Projectile(x_position, y_position, PROJECTILE_SPEED, YELLOW, PROJECTILE_RADIUS, direction))
+        self.projectiles.append(projectile)
 
     def update(self):
 
