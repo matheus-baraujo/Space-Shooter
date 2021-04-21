@@ -174,3 +174,23 @@ class Player(Spacecraft):
 
         self.move()
         self.rotate()
+
+    
+class Enemy(Spacecraft):
+
+
+    def __init__(self):
+
+        Spacecraft.__init__(x_position, y_position, life, speed, shape_function, RED, angle_speed, angle)
+
+    def rotate(self, x_player, y_player):
+
+        rel_x, rel_y = x_player - self.x, y_player - self.y
+        rel_x2, rel_y2 = self.vertices[0][0] - self.x, self.vertices[0][1] - self.y
+        angular_displacement = math.atan2(rel_x2, rel_y2) - math.atan2(rel_x, rel_y)
+        angular_displacement *= angle_speed
+        self.rotate_spacecraft(angular_displacement)
+
+    def update(self, x_player, y_player):
+
+        self.rotate(x_player, y_player)
