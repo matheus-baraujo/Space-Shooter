@@ -1,6 +1,6 @@
 import pygame
 import sys
-import math
+import math, random
 from constants import *
 
 
@@ -47,7 +47,6 @@ class Sprites():
     def update(self):
 
         for projectile in self.projectiles:
-
             projectile.move()
             if projectile.is_out_of_bound():
                 self.projectiles.remove(projectile)

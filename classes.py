@@ -179,9 +179,10 @@ class Player(Spacecraft):
 class Enemy(Spacecraft):
 
 
-    def __init__(self):
+    def __init__(self, max_distance_to_player):
 
         Spacecraft.__init__(x_position, y_position, life, speed, shape_function, RED, angle_speed, angle)
+        self.max_distance = distance_to_player
 
     def rotate(self, x_player, y_player):
 
@@ -190,6 +191,20 @@ class Enemy(Spacecraft):
         angular_displacement = math.atan2(rel_x2, rel_y2) - math.atan2(rel_x, rel_y)
         angular_displacement *= angle_speed
         self.rotate_spacecraft(angular_displacement)
+
+    def move(self, x_player, y_player):
+
+        rel_x, rel_y = x_player - self.x, y_player - self.y
+        distance = math.sqrt(rel_x**2 + rel_y**2)
+
+        if distance>self.max_distance:
+            displacement_x = self.speed*rel_x/distance
+            displacement_y = self.speed*rel_y/distance
+            self.translate_spacecraft(displacement_x, displacement_y)
+        elif distance>self.max_distance:
+            displacement_x = -self.speed*rel_x/distance
+            displacement_y = -self.speed*rel_y/distance
+            self.translate_spacecraft(displacement_x, displacement_y)
 
     def update(self, x_player, y_player):
 
