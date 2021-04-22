@@ -1,7 +1,8 @@
-import pygame, sys
+import pygame, sys, random
 from classes import *
 from constants import *
 from shapes import *
+from functions import *
 
 def main():
 
@@ -10,6 +11,7 @@ def main():
     screen = pygame.display.set_mode(SIZE)
     player = Player(shape1, WHITE) 
     sprite_holder = Sprites(player)
+    score = 0
 
     while True:
 
@@ -22,11 +24,16 @@ def main():
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 sprite_holder.player_shoot()
+        
+        if 1==random.randint(1,800):
+            enemy = create_enemy(score)
+            sprite_holder.add_enemy(enemy)
 
         sprite_holder.update()
         screen.fill(BLACK)
         sprite_holder.draw(screen)
         pygame.display.flip()
+        score +=1
 
 if __name__ == "__main__":
 

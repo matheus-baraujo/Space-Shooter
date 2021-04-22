@@ -49,9 +49,9 @@ class Spacecraft():
         '''
 
         if self.life < 1:
-            return False
-        else:
             return True
+        else:
+            return False
 
     def register_hit(self, hitpoints=1):
 
@@ -184,15 +184,15 @@ class Enemy(Spacecraft):
 
     def __init__(self, x_position, y_position, life, speed, shape_function, color, angle_speed, angle, max_distance_to_player):
 
-        Spacecraft.__init__(x_position, y_position, life, speed, shape_function, color, angle_speed, angle)
-        self.max_distance = distance_to_player
+        Spacecraft.__init__(self, x_position, y_position, life, speed, shape_function, color, angle_speed, angle)
+        self.max_distance = max_distance_to_player
 
     def rotate(self, x_player, y_player):
 
         rel_x, rel_y = x_player - self.x, y_player - self.y
         rel_x2, rel_y2 = self.vertices[0][0] - self.x, self.vertices[0][1] - self.y
         angular_displacement = math.atan2(rel_x2, rel_y2) - math.atan2(rel_x, rel_y)
-        angular_displacement *= angle_speed
+        angular_displacement *= self.angle_speed
         self.rotate_spacecraft(angular_displacement)
 
     def move(self, x_player, y_player):
