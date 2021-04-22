@@ -204,7 +204,7 @@ class Enemy(Spacecraft):
             displacement_x = self.speed*rel_x/distance
             displacement_y = self.speed*rel_y/distance
             self.translate_spacecraft(displacement_x, displacement_y)
-        elif distance>self.max_distance:
+        elif distance<self.max_distance:
             displacement_x = -self.speed*rel_x/distance
             displacement_y = -self.speed*rel_y/distance
             self.translate_spacecraft(displacement_x, displacement_y)
