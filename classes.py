@@ -247,10 +247,10 @@ class Projectile():
 class Sprites():
 
 
-    def __init__(self player):
+    def __init__(self, player):
 
         self.projectiles = []
-        self.enemeies = []
+        self.enemies = []
         self.player = player
 
     def add_projectile(self, projectile):
@@ -259,18 +259,35 @@ class Sprites():
 
     def add_enemy(self, enemy):
 
-        self.enemeies.append(enemy)
+        self.enemies.append(enemy)
+
+    def get_keyboard_input(self, event):
+
+        self.player.get_keyboard_input(event)
 
     def update(self):
+
+        self.player.update()
+        x_pos, y_pos = self.player.get_position()
 
         for projectile in self.projectiles:
             projectile.move()
             if projectile.is_out_of_bound():
                 self.projectiles.remove(projectile)
-                del projectile            
+                del projectile
+
+        for enemy in self.enemies:
+            enemy.update(x_pos, y_pos)
+            if enemy.is_dead():
+                self.enemies.remove(enemy)
+                del enemy
 
     def draw(self, screen):
 
-        for projectile in self.projectiles:
+        self.player.draw(screen)
 
+        for projectile in self.projectiles:
             projectile.draw(screen)
+
+        for enemy in self.enemies:
+            enemy.draw(screen)
