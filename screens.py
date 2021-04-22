@@ -78,6 +78,49 @@ def animate_star_field(screen, star_field_slow, star_field_medium, star_field_fa
             star[1] = random.randrange(-20, -5)
         pygame.draw.circle(screen, MAGENTA, star, 1)     
 
+def circulate_star_field(screen, star_field_slow, star_field_medium, star_field_fast, star_field_shooting, width, height):
+
+    width = width
+    height = height
+    for star in star_field_slow:
+        star[1] += 1
+        if star[1] > height:
+            star[0] = random.randrange(0, width)
+            star[1] = random.randrange(-20, -5)
+        pygame.draw.circle(screen, DARKGREY, star, 3)
+
+    for star in star_field_medium:
+        star[1] += 4
+        if star[1] > height:
+            star[0] = random.randrange(0, width)
+            star[1] = random.randrange(-20, -5)
+        pygame.draw.circle(screen, CYAN, star, 2)
+
+    for star in star_field_fast:
+        star[1] += 8
+        if star[1] > height:
+            star[0] = random.randrange(0, width)
+            star[1] = random.randrange(-20, -5)
+        pygame.draw.circle(screen, YELLOW, star, 1)
+
+    for star in star_field_shooting:
+        star[0] += 16
+        star[1] += 16
+        if star[0] > width:
+            star[0] = random.randrange(-20, -5)
+            star[1] = random.randrange(0, height)
+        if star[1] > height:
+            star[0] = random.randrange(0, width)
+            star[1] = random.randrange(-20, -5)
+        pygame.draw.circle(screen, MAGENTA, star, 1)
+
+    star_field_slow = star_field_slow
+    star_field_medium = star_field_medium
+    star_field_fast = star_field_fast
+    star_field_shooting = star_field_shooting
+
+
+
 def start_screen(screen):
     screen = screen
     height = pygame.display.Info().current_h
@@ -151,26 +194,69 @@ def personalization_screen(screen):
     height = pygame.display.Info().current_h
     width = pygame.display.Info().current_w
     
+    player_customization = pygame.image.load(r'resources/player_customization.png') # 473 x 59 
+    player_customization = player_customization.convert_alpha()
+
+    button_next = pygame.image.load(r'resources/button_next.png') # 103 x 42
+    button_next = button_next.convert_alpha()
+    button_next_slab_size = 123, 62
+    button_next_slab = pygame.Surface(button_next_slab_size)
+    button_next_slab.set_alpha(0)
+    button_next_slab.fill(BLACK)
+
+    button_cancel = pygame.image.load(r'resources/button_cancel.png') # 133 x 42
+    button_cancel = button_cancel.convert_alpha()
+    button_cancel_slab_size = 153, 62
+    button_cancel_slab = pygame.Surface(button_cancel_slab_size)
+    button_cancel_slab.set_alpha(0)
+    button_cancel_slab.fill(BLACK) 
+
     clock = pygame.time.Clock()
     star_field_slow, star_field_medium, star_field_fast, star_field_shooting = generate_star_field(width, height)
+
+    slab_size = int(WIDTH-80), int(HEIGHT-60)
+    slab = pygame.Surface(slab_size)
+    slab.set_alpha(128)
+    slab.fill(LIGHTGREY)
 
     running = True
 
     while running:
         screen.fill(BLACK)
+        
+        mouse_coord = pygame.mouse.get_pos()
+        
+        if( WIDTH/1.2 <= mouse_coord[0] <= WIDTH/1.2 + 103 and  HEIGHT/1.2 <= mouse_coord[1] <= HEIGHT/1.2 + 42):
+            #mouse hover on next button
+            button_next_slab.set_alpha(128)
+        else:
+            button_next_slab.set_alpha(0)    
 
-        for star in star_field_slow:
-            pygame.draw.polygon(screen, DARKGREY, star_shape(star[0], star[1]))
+        if( WIDTH/11 <= mouse_coord[0] <= WIDTH/11 + 133 and HEIGHT/1.2 <= mouse_coord[1] <= HEIGHT/1.2 + 42):
+            #mouse hover on cancel button
+            button_cancel_slab.set_alpha(128)
+        else:
+            button_cancel_slab.set_alpha(0)    
 
-        for star in star_field_medium:
-            pygame.draw.polygon(screen, CYAN, star_shape(star[0], star[1]))
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE or event.type == pygame.MOUSEBUTTONDOWN and button_cancel_slab.get_alpha() == 128:
+                running = False 
+                #quit 
+                sys.exit() 
+            if event.type == pygame.MOUSEBUTTONDOWN and button_next_slab.get_alpha() == 128:
+                #passes to the next screen
+                running = False
+            
+        animate_star_field(screen, star_field_slow, star_field_medium, star_field_fast, star_field_shooting, width, height)  
 
-        for star in star_field_fast:
-            pygame.draw.polygon(screen, YELLOW, star_shape(star[0], star[1]))
+        screen.blit(slab, (40, 30))
+        screen.blit(player_customization, (WIDTH/3.3, 50))
 
-        for star in star_field_shooting:
-            pygame.draw.polygon(screen, MAGENTA, star_shape(star[0], star[1])) 
+        screen.blit(button_cancel_slab, (WIDTH/11-10, HEIGHT/1.2-10))
+        screen.blit(button_cancel, (WIDTH/11, HEIGHT/1.2))
 
+        screen.blit(button_next_slab, (WIDTH/1.2-10, HEIGHT/1.2-10))
+        screen.blit(button_next, (WIDTH/1.2, HEIGHT/1.2))
 
         pygame.display.update()
         clock.tick(30)
