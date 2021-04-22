@@ -78,6 +78,7 @@ def animate_star_field(screen, star_field_slow, star_field_medium, star_field_fa
             star[1] = random.randrange(-20, -5)
         pygame.draw.circle(screen, MAGENTA, star, 1)     
 
+'''
 def circulate_star_field(screen, star_field_slow, star_field_medium, star_field_fast, star_field_shooting, width, height):
 
     width = width
@@ -118,7 +119,7 @@ def circulate_star_field(screen, star_field_slow, star_field_medium, star_field_
     star_field_medium = star_field_medium
     star_field_fast = star_field_fast
     star_field_shooting = star_field_shooting
-
+'''
 
 
 def start_screen(screen):
@@ -179,6 +180,15 @@ def start_screen(screen):
             start_message.set_alpha(i)
             screen.blit(logo, (WIDTH/3.3, HEIGHT/4))
             screen.blit(start_message, (WIDTH/2.7, HEIGHT/1.5))
+
+            if(i >= 128):
+                for speed in range(255-i):
+                    animate_star_field(screen, star_field_slow, star_field_medium, star_field_fast, star_field_shooting, width, height)  
+            else:
+                for speed in range(i):
+                    animate_star_field(screen, star_field_slow, star_field_medium, star_field_fast, star_field_shooting, width, height)  
+
+
             if(i <= 0):
                 running = False
 
