@@ -265,6 +265,11 @@ class Sprites():
 
         self.player.get_keyboard_input(event)
 
+    def player_shoot(self):
+
+        projectile = self.player.shoot(PROJECTILE_SPEED, YELLOW)
+        self.add_projectile(projectile)
+
     def update(self):
 
         self.player.update()

@@ -10,7 +10,7 @@ def main():
     pygame.init()
     screen = pygame.display.set_mode(SIZE)
     player = Player(shape1, WHITE) 
-    sprite_holder = Sprites()
+    sprite_holder = Sprites(player)
 
     while True:
 
@@ -19,11 +19,10 @@ def main():
             if event.type==pygame.QUIT: 
                 sys.exit()
 
-            player.get_keyboard_input(event)
+            sprite_holder.get_keyboard_input(event)
 
             if event.type == pygame.MOUSEBUTTONDOWN:
-                projectile = player.shoot(PROJECTILE_SPEED, YELLOW)
-                sprite_holder.add_projectile(projectile)
+                sprite_holder.player_shoot()
 
         player.update()
         sprite_holder.update()
