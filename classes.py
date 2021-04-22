@@ -295,3 +295,7 @@ class Sprites():
 
         for enemy in self.enemies:
             enemy.draw(screen)
+
+    def get_num_enemies(self):
+
+        return len(self.enemies)
