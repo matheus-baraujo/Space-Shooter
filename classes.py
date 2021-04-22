@@ -179,9 +179,9 @@ class Player(Spacecraft):
 class Enemy(Spacecraft):
 
 
-    def __init__(self, max_distance_to_player):
+    def __init__(self, x_position, y_position, life, speed, shape_function, color, angle_speed, angle, max_distance_to_player):
 
-        Spacecraft.__init__(x_position, y_position, life, speed, shape_function, RED, angle_speed, angle)
+        Spacecraft.__init__(x_position, y_position, life, speed, shape_function, color, angle_speed, angle)
         self.max_distance = distance_to_player
 
     def rotate(self, x_player, y_player):
