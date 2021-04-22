@@ -2,7 +2,6 @@ import pygame
 import sys
 import math
 from constants import *
-from projectiles import *
 
 
 class Spacecraft():

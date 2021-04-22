@@ -2,7 +2,6 @@ import pygame, sys
 from classes import *
 from constants import *
 from shapes import *
-from projectiles import *
 
 def main():
 
@@ -24,10 +23,8 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 sprite_holder.player_shoot()
 
-        player.update()
         sprite_holder.update()
         screen.fill(BLACK)
-        player.draw(screen)
         sprite_holder.draw(screen)
         pygame.display.flip()
 
