@@ -15,7 +15,7 @@ def create_enemy(score):
     y_position = random.randrange(10, HEIGHT-10)
     life = random.randint(1, int(level))
     speed = random.uniform(0.01, 0.1) * level
-    angle_speed = random.uniform(0.1, 0.2)
-    max_distance = random.randint(250, 500)
+    angle_speed = random.uniform(0.01, 0.02) * level
+    max_distance = random.randint(150, 400)
     enemy = Enemy(x_position, y_position, life, speed, shape, color, angle_speed, 0, max_distance)
     return enemy
