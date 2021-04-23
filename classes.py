@@ -199,7 +199,6 @@ class Enemy(Spacecraft):
 
         rel_x, rel_y = x_player - self.x, y_player - self.y
         distance = math.sqrt(rel_x**2 + rel_y**2)
-
         if distance>self.max_distance:
             displacement_x = self.speed*rel_x/distance
             displacement_y = self.speed*rel_y/distance
