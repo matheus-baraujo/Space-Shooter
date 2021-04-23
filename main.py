@@ -25,7 +25,7 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 sprite_holder.player_shoot()
         
-        if 1==random.randint(1,800) and sprite_holder.get_num_enemies()<=10:
+        if 1==random.randint(1,800) and sprite_holder.get_num_enemies()<=5:
             enemy = create_enemy(score)
             sprite_holder.add_enemy(enemy)
 
