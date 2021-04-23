@@ -22,6 +22,9 @@ def main():
             if event.type==pygame.QUIT: 
                 sys.exit()
 
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                pause_screen(screen)
+
             player.get_keyboard_input(event)
 
             if event.type == pygame.MOUSEBUTTONDOWN:

@@ -207,6 +207,27 @@ def personalization_screen(screen):
     player_customization = pygame.image.load(r'resources/player_customization.png') # 473 x 59 
     player_customization = player_customization.convert_alpha()
 
+    title_nickname = pygame.image.load(r'resources/title_nickname.png') # 286 x 81
+    title_nickname = pygame.transform.scale(title_nickname, (143,40)) # adjusting size
+    title_nickname = title_nickname.convert_alpha()
+    nickname_input_slab_size = 200,60
+    nickname_input_slab = pygame.Surface(nickname_input_slab_size)
+    nickname_input_slab.set_alpha(128)
+    nickname_input_slab.fill(BLACK)
+    nickname_input = []
+    nickname_output = 'Player' #default
+
+    title_color = pygame.image.load(r'resources/title_color.png') # 174 x 81
+    title_color = pygame.transform.scale(title_color, (124, 40)) # adjusting size
+    title_color = title_color.convert_alpha()
+    color_output = 0 #default of 5 colors [WHITE, GREEN, MAGENTA, ]
+
+    title_shape = pygame.image.load(r'resources/title_shape.png') # 209 x 104
+    title_shape = pygame.transform.scale(title_shape, (145, 50))
+    title_shape = title_shape.convert_alpha()
+    selecting_shape_local = WIDTH/2 + 180 + 80, 285
+    shape_output = 0 #default of 3 shapes [0, 1, 2]
+
     button_next = pygame.image.load(r'resources/button_next.png') # 103 x 42
     button_next = button_next.convert_alpha()
     button_next_slab_size = 123, 62
@@ -221,10 +242,17 @@ def personalization_screen(screen):
     button_cancel_slab.set_alpha(0)
     button_cancel_slab.fill(BLACK) 
 
+    button_selector_right = pygame.image.load(r'resources/button_selector_right.png') # 46 x 80
+    button_selector_right = button_selector_right.convert_alpha()
+
+    button_selector_left = pygame.image.load(r'resources/button_selector_left.png') # 46 x 80
+    button_selector_left = button_selector_left.convert_alpha()
+
+
     clock = pygame.time.Clock()
     star_field_slow, star_field_medium, star_field_fast, star_field_shooting = generate_star_field(width, height)
 
-    slab_size = int(WIDTH-80), int(HEIGHT-60)
+    slab_size = WIDTH-80, HEIGHT-60
     slab = pygame.Surface(slab_size)
     slab.set_alpha(128)
     slab.fill(LIGHTGREY)
@@ -262,6 +290,19 @@ def personalization_screen(screen):
         screen.blit(slab, (40, 30))
         screen.blit(player_customization, (WIDTH/3.3, 50))
 
+        screen.blit(title_nickname,(WIDTH/11 + 100, 180))
+        screen.blit(nickname_input_slab,(WIDTH/11 + 248, 175))
+
+        screen.blit(title_shape, (WIDTH/2 + 180, 180))
+        screen.blit(button_selector_left, (WIDTH/2 + 130, 245))
+        screen.blit(button_selector_right, (WIDTH/2 + 190 + 145, 245))
+        chosen_shape = shape1(selecting_shape_local[0], selecting_shape_local[1])
+        pygame.draw.polygon(screen, WHITE, chosen_shape)
+
+        screen.blit(title_color, (WIDTH/11 + 100, HEIGHT/1.8))
+
+
+
         screen.blit(button_cancel_slab, (WIDTH/11-10, HEIGHT/1.2-10))
         screen.blit(button_cancel, (WIDTH/11, HEIGHT/1.2))
 
@@ -272,8 +313,95 @@ def personalization_screen(screen):
         clock.tick(30)
 
 
-#def gameplay_screen:
+#def gameplay_screen(screen, player, nickname, score):
 
-#def pause_screen:
 
-#def ending_screen:     
+def pause_screen(screen):
+    screen = screen
+    height = pygame.display.Info().current_h
+    width = pygame.display.Info().current_w
+
+    clock = pygame.time.Clock()
+
+    pause_panel_size = width-640, height-100
+    pause_panel = pygame.Surface(pause_panel_size)
+    pause_panel.set_alpha(64)
+    pause_panel.fill(LIGHTGREY)
+
+    pause = pygame.image.load(r'resources/pause.png') # 160 x 60
+    pause = pygame.transform.scale(pause, (186, 60))
+    pause = pause.convert_alpha()
+
+    button_resume = pygame.image.load(r'resources/button_resume.png') # 239 x 53
+    button_resume = pygame.transform.scale(button_resume, (180, 40))
+    button_resume = button_resume.convert_alpha()
+
+    button_status = pygame.image.load(r'resources/button_status.png') # 249 x 81
+    button_status = pygame.transform.scale(button_status, (184, 60))
+    button_status = button_status.convert_alpha()
+
+    button_quit = pygame.image.load(r'resources/button_quit.png') # 143 x 104
+    button_quit = pygame.transform.scale(button_quit, (90, 65))
+    button_quit = button_quit.convert_alpha()
+
+    screen.blit(pause_panel, (WIDTH/2 - 320, 50))
+    screen.blit(pause, (WIDTH/2 - 93, HEIGHT/6))
+    
+    running = True
+
+    while running:
+
+        mouse_coord = pygame.mouse.get_pos()
+
+        #if ( WIDTH/2 - 90 < mouse_coord[0] < WIDTH/2 + 45 and  HEIGHT/2.5 < mouse_coord[1] < HEIGHT/2.5 + 40):
+
+
+        #if ( WIDTH/2 - 92 < mouse_coord[0] < WIDTH/2 + 45 and  HEIGHT/2.5 + 60 < mouse_coord[1] < HEIGHT/2.5 + 60 + 60):
+            
+
+        #if ( WIDTH/2 - 45 < mouse_coord[0] < WIDTH/2 + 45 and HEIGHT/2.5 + 140 < mouse_coord[1] < HEIGHT/2.5 + 140 + 65):        
+            
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                running = False 
+                #quit 
+                sys.exit() 
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                #passes to the next screen
+                running = False
+
+        screen.blit(button_resume, (WIDTH/2 - 90, HEIGHT/2.5))
+        screen.blit(button_status, (WIDTH/2 - 92, HEIGHT/2.5 + 60))
+        screen.blit(button_quit, (WIDTH/2 - 45, HEIGHT/2.5 + 140))
+
+        pygame.display.update()
+        clock.tick(30)
+    
+
+def ending_screen(screen, nickname, score):
+    screen = screen
+    height = pygame.display.Info().current_h
+    width = pygame.display.Info().current_w
+
+    clock = pygame.time.Clock()
+    star_field_slow, star_field_medium, star_field_fast, star_field_shooting = generate_star_field(width, height)
+
+    running = True
+
+    while running:
+        screen.fill(BLACK)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                running = False 
+                #quit 
+                sys.exit() 
+            if event.type == pygame.MOUSEBUTTONDOWN and button_next_slab.get_alpha() == 128:
+                #passes to the next screen
+                running = False
+
+        animate_star_field(screen, star_field_slow, star_field_medium, star_field_fast, star_field_shooting, width, height)  
+
+        pygame.display.update()
+        clock.tick(30)
