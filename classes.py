@@ -285,7 +285,7 @@ class Sprites():
                 self.enemies.remove(enemy)
                 del enemy
             if 1==random.randint(1, 300):
-                enemy_projectile = enemy.shoot(PROJECTILE_SPEED/2, RED)
+                enemy_projectile = enemy.shoot(PROJECTILE_SPEED/3, RED)
                 self.add_projectile(enemy_projectile)
 
     def draw(self, screen):
