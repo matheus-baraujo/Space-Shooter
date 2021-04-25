@@ -41,6 +41,7 @@ class Spacecraft():
         self.angle_speed = angle_speed
         self.rotate_spacecraft(self.angle)
         self.color = color
+        self.hitbox = None
 
     def is_dead(self):
 
@@ -103,7 +104,7 @@ class Spacecraft():
 
     def draw(self, screen):
 
-        pygame.draw.polygon(screen, self.color, self.vertices)
+        self.hitbox = pygame.draw.polygon(screen, self.color, self.vertices)
 
     def shoot(self, speed, color):
 
@@ -247,13 +248,10 @@ class Sprites():
 
     def __init__(self, player):
 
-        self.projectiles = []
+        self.enemy_projectiles = []
+        self.player_projectiles = []
         self.enemies = []
         self.player = player
-
-    def add_projectile(self, projectile):
-
-        self.projectiles.append(projectile)
 
     def add_enemy(self, enemy):
 
@@ -266,17 +264,23 @@ class Sprites():
     def player_shoot(self):
 
         projectile = self.player.shoot(PROJECTILE_SPEED, YELLOW)
-        self.add_projectile(projectile)
+        self.player_projectiles.append(projectile)
 
     def update(self):
 
         self.player.update()
         x_pos, y_pos = self.player.get_position()
 
-        for projectile in self.projectiles:
+        for projectile in self.player_projectiles:
             projectile.move()
             if projectile.is_out_of_bound():
-                self.projectiles.remove(projectile)
+                self.player_projectiles.remove(projectile)
+                del projectile
+
+        for projectile in self.enemy_projectiles:
+            projectile.move()
+            if projectile.is_out_of_bound():
+                self.enemy_projectiles.remove(projectile)
                 del projectile
 
         for enemy in self.enemies:
@@ -286,13 +290,16 @@ class Sprites():
                 del enemy
             if 1==random.randint(1, 300):
                 enemy_projectile = enemy.shoot(PROJECTILE_SPEED/3, RED)
-                self.add_projectile(enemy_projectile)
+                self.enemy_projectiles.append(enemy_projectile)
 
     def draw(self, screen):
 
         self.player.draw(screen)
 
-        for projectile in self.projectiles:
+        for projectile in self.player_projectiles:
+            projectile.draw(screen)
+
+        for projectile in self.enemy_projectiles:
             projectile.draw(screen)
 
         for enemy in self.enemies:
