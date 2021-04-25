@@ -41,7 +41,7 @@ class Spacecraft():
         self.angle_speed = angle_speed
         self.rotate_spacecraft(self.angle)
         self.color = color
-        self.hitbox = None
+        self.hitbox = pygame.Rect(0,0,0,0)
 
     def is_dead(self):
 
@@ -225,6 +225,7 @@ class Projectile():
         self.color = color
         self.radius = radius 
         self.direction = direction
+        self.hitbox = pygame.Rect(0,0,0,0)
 
     def draw(self, screen):
 
@@ -276,6 +277,7 @@ class Sprites():
             if projectile.is_out_of_bound():
                 self.player_projectiles.remove(projectile)
                 del projectile
+            
 
         for projectile in self.enemy_projectiles:
             projectile.move()
