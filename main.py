@@ -11,30 +11,7 @@ def main():
     screen = pygame.display.set_mode(SIZE)
     pygame.display.set_caption("Space Shooter v1.0")
     start_screen(screen)
-    personalization_screen(screen)
-    player = Player(shape1, WHITE) 
-    sprites_object = Sprites()
-
-    while True:
-
-        for event in pygame.event.get():
-            
-            if event.type==pygame.QUIT: 
-                sys.exit()
-
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                pause_screen(screen)
-
-            player.get_keyboard_input(event)
-
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                player.shoot(sprites_object)  
-
-        player.update()
-        screen.fill(BLACK)
-        player.draw(screen)
-        sprites_object.update(screen)
-        pygame.display.flip()
+    
 
 if __name__ == "__main__":
 

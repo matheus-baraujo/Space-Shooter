@@ -78,49 +78,6 @@ def animate_star_field(screen, star_field_slow, star_field_medium, star_field_fa
             star[1] = random.randrange(-20, -5)
         pygame.draw.circle(screen, MAGENTA, star, 1)     
 
-'''
-def circulate_star_field(screen, star_field_slow, star_field_medium, star_field_fast, star_field_shooting, width, height):
-
-    width = width
-    height = height
-    for star in star_field_slow:
-        star[1] += 1
-        if star[1] > height:
-            star[0] = random.randrange(0, width)
-            star[1] = random.randrange(-20, -5)
-        pygame.draw.circle(screen, DARKGREY, star, 3)
-
-    for star in star_field_medium:
-        star[1] += 4
-        if star[1] > height:
-            star[0] = random.randrange(0, width)
-            star[1] = random.randrange(-20, -5)
-        pygame.draw.circle(screen, CYAN, star, 2)
-
-    for star in star_field_fast:
-        star[1] += 8
-        if star[1] > height:
-            star[0] = random.randrange(0, width)
-            star[1] = random.randrange(-20, -5)
-        pygame.draw.circle(screen, YELLOW, star, 1)
-
-    for star in star_field_shooting:
-        star[0] += 16
-        star[1] += 16
-        if star[0] > width:
-            star[0] = random.randrange(-20, -5)
-            star[1] = random.randrange(0, height)
-        if star[1] > height:
-            star[0] = random.randrange(0, width)
-            star[1] = random.randrange(-20, -5)
-        pygame.draw.circle(screen, MAGENTA, star, 1)
-
-    star_field_slow = star_field_slow
-    star_field_medium = star_field_medium
-    star_field_fast = star_field_fast
-    star_field_shooting = star_field_shooting
-'''
-
 
 def start_screen(screen):
     screen = screen
@@ -201,6 +158,8 @@ def start_screen(screen):
         #set frames per second
         clock.tick(30)
 
+    return personalization_screen(screen)    
+
 
 def personalization_screen(screen):
     screen = screen
@@ -217,9 +176,9 @@ def personalization_screen(screen):
 
     #text input for nickname 
     font = pygame.font.SysFont(None, 50)
-    text = ""
+    text = "Anonymous"
     input_active = False
-    text_color = (BLACK)
+    text_color = (WHITE)
 
     #static elements
     player_customization = pygame.image.load(r'resources/player_customization.png') # 473 x 59 
@@ -236,8 +195,40 @@ def personalization_screen(screen):
     title_color = pygame.image.load(r'resources/title_color.png') # 174 x 81
     title_color = pygame.transform.scale(title_color, (124, 40)) # adjusting size
     title_color = title_color.convert_alpha()
-    color_output = 0 #default of 5 colors [WHITE, GREEN, MAGENTA, ????]
+    color_output = WHITE #default of 5 colors [WHITE, CYAN, MAGENTA, ORANGE, RED]
+    
+    #color selection
+    color_option1 = pygame.Surface((40,40))
+    color_option1.fill(WHITE)
+    highlight1 = pygame.Surface((50,50))
+    highlight1.fill(YELLOW)
+    highlight1.set_alpha(255)
 
+    color_option2 = pygame.Surface((40,40))
+    color_option2.fill(CYAN)
+    highlight2 = pygame.Surface((50,50))
+    highlight2.fill(YELLOW)
+    highlight2.set_alpha(0)
+
+    color_option3 = pygame.Surface((40,40))
+    color_option3.fill(MAGENTA)
+    highlight3 = pygame.Surface((50,50))
+    highlight3.fill(YELLOW)
+    highlight3.set_alpha(0)
+
+    color_option4 = pygame.Surface((40,40))
+    color_option4.fill(ORANGE)
+    highlight4 = pygame.Surface((50,50))
+    highlight4.fill(YELLOW)
+    highlight4.set_alpha(0)
+
+    color_option5 = pygame.Surface((40,40))
+    color_option5.fill(RED)
+    highlight5 = pygame.Surface((50,50))
+    highlight5.fill(YELLOW)
+    highlight5.set_alpha(0)
+
+    #shape selection
     title_shape = pygame.image.load(r'resources/title_shape.png') # 209 x 104
     title_shape = pygame.transform.scale(title_shape, (145, 50))
     title_shape = title_shape.convert_alpha()
@@ -297,12 +288,12 @@ def personalization_screen(screen):
                 #quit 
                 sys.exit()
 
-            if event.type == pygame.MOUSEBUTTONDOWN and WIDTH/11 + 248 < mouse_coord[0] < WIDTH/11 + 448 and 175 < mouse_coord[1] < 235 and not locked_controls:
+            if event.type == pygame.MOUSEBUTTONDOWN and WIDTH/11 + 248 <= mouse_coord[0] <= WIDTH/11 + 448 and 175 <= mouse_coord[1] <= 235 and not locked_controls:
                 input_active = True
                 text = ""
 
+            #receives the text input to create the nickname
             if event.type == pygame.KEYDOWN and input_active and not locked_controls:
-                #receives the text input to create the nickname
                 if event.key == pygame.K_RETURN:
                     input_active = False
                 elif event.key == pygame.K_BACKSPACE:
@@ -311,8 +302,53 @@ def personalization_screen(screen):
                     if(len(text) <= 9):
                        text += event.unicode
 
+            #receives the color selection
+            if event.type == pygame.MOUSEBUTTONDOWN and not locked_controls and WIDTH/11 + 234<=mouse_coord[0]<=WIDTH/11 + 274 and HEIGHT/1.8 + 5<=mouse_coord[1]<=HEIGHT/1.8 + 45:
+                color_output = WHITE
+                highlight1.set_alpha(255)
+                highlight2.set_alpha(0)
+                highlight3.set_alpha(0)
+                highlight4.set_alpha(0)
+                highlight5.set_alpha(0)
+            if event.type == pygame.MOUSEBUTTONDOWN and not locked_controls and WIDTH/11 + 284<=mouse_coord[0]<=WIDTH/11 + 324 and HEIGHT/1.8 + 5<=mouse_coord[1]<=HEIGHT/1.8 + 45:
+                color_output = CYAN
+                highlight1.set_alpha(0)
+                highlight2.set_alpha(255)
+                highlight3.set_alpha(0)
+                highlight4.set_alpha(0)
+                highlight5.set_alpha(0)
+            if event.type == pygame.MOUSEBUTTONDOWN and not locked_controls and WIDTH/11 + 334<=mouse_coord[0]<=WIDTH/11 + 374 and HEIGHT/1.8 + 5<=mouse_coord[1]<=HEIGHT/1.8 + 45:        
+                color_output = MAGENTA
+                highlight1.set_alpha(0)
+                highlight2.set_alpha(0)
+                highlight3.set_alpha(255)
+                highlight4.set_alpha(0)
+                highlight5.set_alpha(0)
+            if event.type == pygame.MOUSEBUTTONDOWN and not locked_controls and WIDTH/11 + 384<=mouse_coord[0]<=WIDTH/11 + 424 and HEIGHT/1.8 + 5<=mouse_coord[1]<=HEIGHT/1.8 + 45:        
+                color_output = ORANGE
+                highlight1.set_alpha(0)
+                highlight2.set_alpha(0)
+                highlight3.set_alpha(0)
+                highlight4.set_alpha(255)
+                highlight5.set_alpha(0)
+            if event.type == pygame.MOUSEBUTTONDOWN and not locked_controls and WIDTH/11 + 434<=mouse_coord[0]<=WIDTH/11 + 474 and HEIGHT/1.8 + 5<=mouse_coord[1]<=HEIGHT/1.8 + 45:        
+                color_output = RED
+                highlight1.set_alpha(0)
+                highlight2.set_alpha(0)
+                highlight3.set_alpha(0)
+                highlight4.set_alpha(0)
+                highlight5.set_alpha(255)        
+
+            # receives the shape selection
+            # arrow right button
+            if event.type == pygame.MOUSEBUTTONDOWN and not locked_controls and shape_output < 2 and WIDTH/2 + 335 <=mouse_coord[0]<= WIDTH/2 + 381 and 245 <=mouse_coord[1]<= 325:
+                shape_output += 1
+            # arrow left button
+            if event.type == pygame.MOUSEBUTTONDOWN and not locked_controls and shape_output > 0 and WIDTH/2 + 130 <=mouse_coord[0]<= WIDTH/2 + 176 and 245 <=mouse_coord[1]<= 325:    
+                shape_output -= 1
+
+            #passes to the next screen
             if event.type == pygame.MOUSEBUTTONDOWN and button_next_slab.get_alpha() == 128 and not locked_controls:
-                #passes to the next screen
                 transition = True
                 locked_controls = True
             
@@ -325,12 +361,39 @@ def personalization_screen(screen):
         screen.blit(nickname_input_slab,(WIDTH/11 + 248, 175))
 
         screen.blit(title_shape, (WIDTH/2 + 180, 180))
+        if shape_output <= 0:
+            button_selector_left.set_alpha(0)
+        else:
+            button_selector_left.set_alpha(255)
+
+        if shape_output >= 2:
+            button_selector_right.set_alpha(0)    
+        else:
+            button_selector_right.set_alpha(255)
+
         screen.blit(button_selector_left, (WIDTH/2 + 130, 245))
         screen.blit(button_selector_right, (WIDTH/2 + 190 + 145, 245))
-        chosen_shape = shape1(selecting_shape_local[0], selecting_shape_local[1])
-        pygame.draw.polygon(screen, WHITE, chosen_shape)
+
+        if(shape_output == 0):
+            chosen_shape = shape1(selecting_shape_local[0], selecting_shape_local[1])
+        elif(shape_output == 1):
+            chosen_shape = shape2(selecting_shape_local[0], selecting_shape_local[1])
+        elif(shape_output == 2):
+            chosen_shape = star_shape(selecting_shape_local[0], selecting_shape_local[1])    
+        
+        pygame.draw.polygon(screen, color_output, chosen_shape)
 
         screen.blit(title_color, (WIDTH/11 + 100, HEIGHT/1.8))
+        screen.blit(highlight1, (WIDTH/11 + 229, HEIGHT/1.8))
+        screen.blit(color_option1, (WIDTH/11 + 234, HEIGHT/1.8 + 5))
+        screen.blit(highlight2, (WIDTH/11 + 279, HEIGHT/1.8))
+        screen.blit(color_option2, (WIDTH/11 + 284, HEIGHT/1.8 + 5))
+        screen.blit(highlight3, (WIDTH/11 + 329, HEIGHT/1.8))
+        screen.blit(color_option3, (WIDTH/11 + 334, HEIGHT/1.8 + 5))
+        screen.blit(highlight4, (WIDTH/11 + 379, HEIGHT/1.8))
+        screen.blit(color_option4, (WIDTH/11 + 384, HEIGHT/1.8 + 5))
+        screen.blit(highlight5, (WIDTH/11 + 429, HEIGHT/1.8))
+        screen.blit(color_option5, (WIDTH/11 + 434, HEIGHT/1.8 + 5))
 
         screen.blit(button_cancel_slab, (WIDTH/11-10, HEIGHT/1.2-10))
         screen.blit(button_cancel, (WIDTH/11, HEIGHT/1.2))
@@ -340,6 +403,7 @@ def personalization_screen(screen):
 
         text_surf = font.render(text, True, text_color)
         screen.blit(text_surf, (WIDTH/11 + 253, 195))
+        
 
         if (transition):
             transition_alpha += 5
@@ -352,10 +416,101 @@ def personalization_screen(screen):
         pygame.display.update()
         clock.tick(30)
 
-    return text, color_output, shape_output    
+    return gameplay_screen(screen, text, color_output, shape_output)    
 
 
-#def gameplay_screen(screen, player, nickname, score):
+def gameplay_screen(screen, nickname, player_color, player_shape):
+    screen = screen
+    height = pygame.display.Info().current_h
+    width = pygame.display.Info().current_w
+
+    clock = pygame.time.Clock()
+
+    nickname = nickname
+    player_color = player_color
+    shape_selector = player_shape
+
+    top_screen_bar = pygame.Surface((WIDTH, 50))
+    top_screen_bar.fill(DARKGREY)
+
+    life = pygame.image.load(r'resources/life_point.png') # 260 x 260
+    life = pygame.transform.scale(life, (40,40))
+    life = life.convert_alpha()
+
+    score = 0
+
+    font = pygame.font.SysFont(None, 40)
+    nick = font.render(nickname, True, WHITE)
+    lives = font.render("HP:", True, WHITE)
+    points = font.render("Score:", True, WHITE)
+
+    if(shape_selector == 0):
+        player = Player(shape1, player_color)
+    elif(shape_selector == 1):
+        player = Player(shape2, player_color)
+    elif(shape_selector == 2):
+        player = Player(star_shape, player_color)    
+
+    sprites_object = Sprites()
+
+    star_field_slow, star_field_medium, star_field_fast, star_field_shooting = generate_star_field(width, height)
+
+    while True:
+
+        for event in pygame.event.get():
+            
+            if event.type==pygame.QUIT: 
+                sys.exit()
+
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                pause_screen(screen)
+
+            player.get_keyboard_input(event)
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                player.shoot(sprites_object)  
+
+        player.update()
+        screen.fill(BLACK)
+        animate_star_field(screen, star_field_slow, star_field_medium, star_field_fast, star_field_shooting, width, height)  
+
+        player.draw(screen)
+        sprites_object.update(screen)
+
+        screen.blit(top_screen_bar, (0,0))
+        screen.blit(nick, (5, 15))
+        screen.blit(lives, (500, 15))
+
+        scored_points = str(score)
+        scored = font.render(scored_points, True, WHITE)
+
+        screen.blit(points, (1000, 15))
+        screen.blit(scored, (1100,15))
+
+        if player.life == 5:
+            screen.blit(life, (WIDTH/12 + 630, 10))
+            screen.blit(life, (WIDTH/12 + 585, 10))
+            screen.blit(life, (WIDTH/12 + 540, 10))
+            screen.blit(life, (WIDTH/12 + 495, 10))
+            screen.blit(life, (WIDTH/12 + 450, 10))
+        if player.life == 4:
+            screen.blit(life, (WIDTH/12 + 585, 10))
+            screen.blit(life, (WIDTH/12 + 540, 10))
+            screen.blit(life, (WIDTH/12 + 495, 10))
+            screen.blit(life, (WIDTH/12 + 450, 10))
+        if player.life == 3:
+            screen.blit(life, (WIDTH/12 + 540, 10))
+            screen.blit(life, (WIDTH/12 + 495, 10))
+            screen.blit(life, (WIDTH/12 + 450, 10))
+        if player.life == 2:
+            screen.blit(life, (WIDTH/12 + 495, 10))
+            screen.blit(life, (WIDTH/12 + 450, 10))
+        if player.life == 1:
+            screen.blit(life, (WIDTH/12 + 450, 10))
+
+
+        pygame.display.flip()
+        clock.tick(30)
 
 
 def pause_screen(screen):
@@ -365,7 +520,7 @@ def pause_screen(screen):
 
     clock = pygame.time.Clock()
 
-    pause_panel_size = width-640, height-100
+    pause_panel_size = width-840, height-250
     pause_panel = pygame.Surface(pause_panel_size)
     pause_panel.set_alpha(64)
     pause_panel.fill(LIGHTGREY)
@@ -378,46 +533,36 @@ def pause_screen(screen):
     button_resume = pygame.transform.scale(button_resume, (180, 40))
     button_resume = button_resume.convert_alpha()
 
-'''
+    '''
     button_status = pygame.image.load(r'resources/button_status.png') # 249 x 81
     button_status = pygame.transform.scale(button_status, (184, 60))
     button_status = button_status.convert_alpha()
-'''
+    '''
 
     button_quit = pygame.image.load(r'resources/button_quit.png') # 143 x 104
     button_quit = pygame.transform.scale(button_quit, (90, 65))
     button_quit = button_quit.convert_alpha()
 
-    screen.blit(pause_panel, (WIDTH/2 - 320, 50))
-    screen.blit(pause, (WIDTH/2 - 93, HEIGHT/6))
+    screen.blit(pause_panel, (WIDTH/2 - 220, 80))
+    screen.blit(pause, (WIDTH/2 - 93, HEIGHT/6 + 30))
     
     running = True
 
     while running:
 
         mouse_coord = pygame.mouse.get_pos()
-
-        #if (WIDTH/2 - 90 < mouse_coord[0] < WIDTH/2 + 45 and  HEIGHT/2.5 < mouse_coord[1] < HEIGHT/2.5 + 40):
-
-
-        #if (WIDTH/2 - 92 < mouse_coord[0] < WIDTH/2 + 45 and  HEIGHT/2.5 + 60 < mouse_coord[1] < HEIGHT/2.5 + 60 + 60):
-            
-
-        #if (WIDTH/2 - 45 < mouse_coord[0] < WIDTH/2 + 45 and HEIGHT/2.5 + 140 < mouse_coord[1] < HEIGHT/2.5 + 140 + 65):        
-            
-
+     
         for event in pygame.event.get():
-            if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE or event.type == pygame.MOUSEBUTTONDOWN and WIDTH/2 - 45 < mouse_coord[0] < WIDTH/2 + 45 and HEIGHT/2.5 + 140 < mouse_coord[1] < HEIGHT/2.5 + 140 + 65:
                 running = False 
                 #quit 
                 sys.exit() 
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                #passes to the next screen
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE or event.type == pygame.MOUSEBUTTONDOWN and WIDTH/2 - 90 < mouse_coord[0] < WIDTH/2 + 45 and  HEIGHT/2.5 < mouse_coord[1] < HEIGHT/2.5 + 40:
+                #resume game
                 running = False
 
-        screen.blit(button_resume, (WIDTH/2 - 90, HEIGHT/2.5))
-    ''' screen.blit(button_status, (WIDTH/2 - 92, HEIGHT/2.5 + 60)) '''
-        screen.blit(button_quit, (WIDTH/2 - 45, HEIGHT/2.5 + 140))
+        screen.blit(button_resume, (WIDTH/2 - 90, HEIGHT/2.5 + 30))
+        screen.blit(button_quit, (WIDTH/2 - 45, HEIGHT/2.5 + 60 + 30))
 
         pygame.display.update()
         clock.tick(30)
