@@ -229,7 +229,7 @@ class Projectile():
 
     def draw(self, screen):
 
-        pygame.draw.circle(screen, self.color, (self.x, self.y), self.radius)
+        self.hitbox = pygame.draw.circle(screen, self.color, (self.x, self.y), self.radius)
 
     def move(self):
 
@@ -277,8 +277,15 @@ class Sprites():
             if projectile.is_out_of_bound():
                 self.player_projectiles.remove(projectile)
                 del projectile
+                continue
+            colliding_enemy_index = projectile.hitbox.collidelist([x.hitbox for x in self.enemies])
+            if colliding_enemy_index==-1:
+                continue
+            else:
+                self.enemies[colliding_enemy_index].register_hit()
+                self.player_projectiles.remove(projectile)
+                del projectile
             
-
         for projectile in self.enemy_projectiles:
             projectile.move()
             if projectile.is_out_of_bound():
