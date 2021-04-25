@@ -291,6 +291,12 @@ class Sprites():
             if projectile.is_out_of_bound():
                 self.enemy_projectiles.remove(projectile)
                 del projectile
+                continue
+            if projectile.hitbox.colliderect(self.player.hitbox):
+                self.player.register_hit()
+                self.enemy_projectiles.remove(projectile)
+                del projectile
+                continue
 
         for enemy in self.enemies:
             enemy.update(x_pos, y_pos)
