@@ -303,6 +303,7 @@ class Sprites():
             if enemy.is_dead():
                 self.enemies.remove(enemy)
                 del enemy
+                continue
             if 1==random.randint(1, 300):
                 enemy_projectile = enemy.shoot(PROJECTILE_SPEED/3, RED)
                 self.enemy_projectiles.append(enemy_projectile)
