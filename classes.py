@@ -309,7 +309,8 @@ class Sprites():
 
     def draw(self, screen):
 
-        self.player.draw(screen)
+        if not self.player.is_dead():
+            self.player.draw(screen)
 
         for projectile in self.player_projectiles:
             projectile.draw(screen)
