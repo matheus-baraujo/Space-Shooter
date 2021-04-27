@@ -439,6 +439,14 @@ def gameplay_screen(screen, nickname, player_color, player_shape):
     height = pygame.display.Info().current_h
     width = pygame.display.Info().current_w
 
+    #elements utilized during the screen transition
+    transition_slab = pygame.Surface(SIZE)
+    transition_slab.fill(BLACK)
+    transition_slab.set_alpha(0)
+    transition_alpha = 0
+    transition = False
+    locked_controls = False
+
     clock = pygame.time.Clock()
 
     nickname = nickname
@@ -486,13 +494,12 @@ def gameplay_screen(screen, nickname, player_color, player_shape):
     laser_shot = pygame.mixer.Sound('sounds/laser_shot_cut.mp3')
 
     channel1.play( gameplay_music, -1)
-    
 
     while True:
 
         for event in pygame.event.get():
             
-            if event.type==pygame.QUIT: 
+            if event.type==pygame.QUIT and event.key == pygame.K_ESCAPE: 
                 sys.exit()
 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
@@ -547,10 +554,23 @@ def gameplay_screen(screen, nickname, player_color, player_shape):
             screen.blit(life, (WIDTH/12 + 450, 10))
         if player.life == 1:
             screen.blit(life, (WIDTH/12 + 450, 10))
+        if player.life == 0:
+            locked_controls = True
+            transition = True    
 
+        if (transition):
+            transition_alpha += 5
+            transition_slab.set_alpha(transition_alpha)
+            if(transition_alpha >= 255):
+                running = False
+
+        screen.blit(transition_slab,(0, 0))
 
         pygame.display.flip()
         clock.tick(30)
+
+    return ending_screen(screen, nickname, score)
+
 
 
 def pause_screen(screen):
