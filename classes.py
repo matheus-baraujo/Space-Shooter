@@ -1,8 +1,7 @@
-import pygame
+import pygame, random
 import sys
 import math
 from constants import *
-from projectiles import *
 
 
 class Spacecraft():
@@ -42,6 +41,7 @@ class Spacecraft():
         self.angle_speed = angle_speed
         self.rotate_spacecraft(self.angle)
         self.color = color
+        self.hitbox = pygame.Rect(0,0,0,0)
 
     def is_dead(self):
 
@@ -50,9 +50,9 @@ class Spacecraft():
         '''
 
         if self.life < 1:
-            return False
-        else:
             return True
+        else:
+            return False
 
     def register_hit(self, hitpoints=1):
 
@@ -104,7 +104,7 @@ class Spacecraft():
 
     def draw(self, screen):
 
-        pygame.draw.polygon(screen, self.color, self.vertices)
+        self.hitbox = pygame.draw.polygon(screen, self.color, self.vertices)
 
     def shoot(self, speed, color):
 
@@ -113,6 +113,10 @@ class Spacecraft():
         direction = [self.vertices[0][0] - self.x, self.vertices[0][1] - self.y]
         direction = tuple(x*math.sqrt(direction[0]**2 + direction[1]**2) for x in direction)
         return Projectile(self.vertices[0][0], self.vertices[0][1], speed, color, PROJECTILE_RADIUS, direction)
+
+    def get_position(self):
+
+        return self.x, self.y
 
 
 class Player(Spacecraft):
@@ -174,3 +178,152 @@ class Player(Spacecraft):
 
         self.move()
         self.rotate()
+
+    
+class Enemy(Spacecraft):
+
+
+    def __init__(self, x_position, y_position, life, speed, shape_function, color, angle_speed, angle, max_distance_to_player):
+
+        Spacecraft.__init__(self, x_position, y_position, life, speed, shape_function, color, angle_speed, angle)
+        self.max_distance = max_distance_to_player
+
+    def rotate(self, x_player, y_player):
+
+        rel_x, rel_y = x_player - self.x, y_player - self.y
+        rel_x2, rel_y2 = self.vertices[0][0] - self.x, self.vertices[0][1] - self.y
+        angular_displacement = math.atan2(rel_x2, rel_y2) - math.atan2(rel_x, rel_y)
+        angular_displacement *= self.angle_speed
+        self.rotate_spacecraft(angular_displacement)
+
+    def move(self, x_player, y_player):
+
+        rel_x, rel_y = x_player - self.x, y_player - self.y
+        distance = math.sqrt(rel_x**2 + rel_y**2)
+        if distance>self.max_distance:
+            displacement_x = self.speed*rel_x/distance
+            displacement_y = self.speed*rel_y/distance
+            self.translate_spacecraft(displacement_x, displacement_y)
+        elif distance<self.max_distance:
+            displacement_x = -self.speed*rel_x/distance
+            displacement_y = -self.speed*rel_y/distance
+            self.translate_spacecraft(displacement_x, displacement_y)
+
+    def update(self, x_player, y_player):
+
+        self.move(x_player, y_player)
+        self.rotate(x_player, y_player)
+
+
+class Projectile():
+
+    def __init__(self, x_position, y_position, speed, color, radius, direction):
+
+        self.x = x_position
+        self.y = y_position
+        self.speed = speed
+        self.color = color
+        self.radius = radius 
+        self.direction = direction
+        self.hitbox = pygame.Rect(0,0,0,0)
+
+    def draw(self, screen):
+
+        self.hitbox = pygame.draw.circle(screen, self.color, (self.x, self.y), self.radius)
+
+    def move(self):
+
+        self.x += self.direction[0] * self.speed  
+        self.y += self.direction[1] * self.speed
+
+    def is_out_of_bound(self):
+
+        if self.x<0 or self.x>WIDTH or self.y<0 or self.y>HEIGHT:
+            return True
+        else:
+            return False
+
+
+class Sprites():
+
+
+    def __init__(self, player):
+
+        self.enemy_projectiles = []
+        self.player_projectiles = []
+        self.enemies = []
+        self.player = player
+        self.score = 0
+
+    def add_enemy(self, enemy):
+
+        self.enemies.append(enemy)
+
+    def get_keyboard_input(self, event):
+
+        self.player.get_keyboard_input(event)
+
+    def player_shoot(self):
+
+        projectile = self.player.shoot(PROJECTILE_SPEED, YELLOW)
+        self.player_projectiles.append(projectile)
+
+    def update(self):
+
+        self.player.update()
+        x_pos, y_pos = self.player.get_position()
+
+        for projectile in self.player_projectiles:
+            projectile.move()
+            if projectile.is_out_of_bound():
+                self.player_projectiles.remove(projectile)
+                del projectile
+                continue
+            colliding_enemy_index = projectile.hitbox.collidelist([x.hitbox for x in self.enemies])
+            if colliding_enemy_index==-1:
+                continue
+            else:
+                self.enemies[colliding_enemy_index].register_hit()
+                self.player_projectiles.remove(projectile)
+                del projectile
+            
+        for projectile in self.enemy_projectiles:
+            projectile.move()
+            if projectile.is_out_of_bound():
+                self.enemy_projectiles.remove(projectile)
+                del projectile
+                continue
+            if projectile.hitbox.colliderect(self.player.hitbox):
+                self.player.register_hit()
+                self.enemy_projectiles.remove(projectile)
+                del projectile
+                continue
+
+        for enemy in self.enemies:
+            enemy.update(x_pos, y_pos)
+            if enemy.is_dead():
+                self.enemies.remove(enemy)
+                self.score += 50
+                del enemy
+                continue
+            if 1==random.randint(1, 300):
+                enemy_projectile = enemy.shoot(PROJECTILE_SPEED/3, RED)
+                self.enemy_projectiles.append(enemy_projectile)
+
+    def draw(self, screen):
+
+        if not self.player.is_dead():
+            self.player.draw(screen)
+
+        for projectile in self.player_projectiles:
+            projectile.draw(screen)
+
+        for projectile in self.enemy_projectiles:
+            projectile.draw(screen)
+
+        for enemy in self.enemies:
+            enemy.draw(screen)
+
+    def get_num_enemies(self):
+
+        return len(self.enemies)

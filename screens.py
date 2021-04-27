@@ -2,6 +2,7 @@ import pygame, sys, random
 from classes import *
 from constants import *
 from shapes import *
+from functions import *
 
 def generate_star_field(width, height):
     width = width
@@ -465,7 +466,7 @@ def gameplay_screen(screen, nickname, player_color, player_shape):
     elif(shape_selector == 2):
         player = Player(star_shape, player_color)    
 
-    sprite_holder = Sprites()
+    sprite_holder = Sprites(player)
 
     star_field_slow, star_field_medium, star_field_fast, star_field_shooting = generate_star_field(width, height)
 
@@ -503,23 +504,24 @@ def gameplay_screen(screen, nickname, player_color, player_shape):
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 channel2.play(laser_shot, 0)
-                projectile = player.shoot(PROJECTILE_SPEED, YELLOW)
-                sprite_holder.add_projectile(projectile) 
+                sprite_holder.player_shoot()
 
-        player.update()
+        if 1==random.randint(1,150) and sprite_holder.get_num_enemies()<5:
+            enemy = create_enemy(sprite_holder.score)
+            sprite_holder.add_enemy(enemy)
+
         sprite_holder.update()
         screen.fill(BLACK)
 
         animate_star_field(screen, star_field_slow, star_field_medium, star_field_fast, star_field_shooting, width, height)  
 
-        player.draw(screen)
         sprite_holder.draw(screen)
 
         screen.blit(top_screen_bar, (0,0))
         screen.blit(nick, (5, 15))
         screen.blit(lives, (500, 15))
 
-        scored_points = str(score)
+        scored_points = str(sprite_holder.score)
         scored = font.render(scored_points, True, WHITE)
 
         screen.blit(points, (1000, 15))
