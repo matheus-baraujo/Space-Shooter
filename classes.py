@@ -253,6 +253,7 @@ class Sprites():
         self.player_projectiles = []
         self.enemies = []
         self.player = player
+        self.score = 0
 
     def add_enemy(self, enemy):
 
@@ -302,6 +303,7 @@ class Sprites():
             enemy.update(x_pos, y_pos)
             if enemy.is_dead():
                 self.enemies.remove(enemy)
+                self.score += 50
                 del enemy
                 continue
             if 1==random.randint(1, 300):
