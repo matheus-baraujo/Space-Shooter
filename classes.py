@@ -106,6 +106,14 @@ class Spacecraft():
 
         pygame.draw.polygon(screen, self.color, self.vertices)
 
+    def shoot(self, speed, color):
+
+        ''' this function creates a bullet in front of the ship, providing it with speed, direction and size '''
+
+        direction = [self.vertices[0][0] - self.x, self.vertices[0][1] - self.y]
+        direction = tuple(x*math.sqrt(direction[0]**2 + direction[1]**2) for x in direction)
+        return Projectile(self.vertices[0][0], self.vertices[0][1], speed, color, PROJECTILE_RADIUS, direction)
+
 
 class Player(Spacecraft):
 
@@ -166,10 +174,3 @@ class Player(Spacecraft):
 
         self.move()
         self.rotate()
-
-    def shoot(self, sprites_object):
-
-        ''' this function creates a bullet in front of the ship, providing it with speed, direction and size '''
-
-        direction = self.vertices[0][0] - self.x, self.vertices[0][1] - self.y
-        sprites_object.add_projectile(self.vertices[0][:], direction)

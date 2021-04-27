@@ -6,27 +6,36 @@ from constants import *
 
 class Projectile():
 
-    def __init__(self, position, speed, color, radius, direction):
+    def __init__(self, x_position, y_position, speed, color, radius, direction):
 
-        self.position = position
+        self.x = x_position
+        self.y = y_position
         self.speed = speed
         self.color = color
         self.radius = radius 
         self.direction = direction
 
+<<<<<<< HEAD
     def projectile_draw(self, screen):
         
         pygame.draw.circle(screen, self.color, self.position, self.radius)
+=======
+    def draw(self, screen):
 
-    def projectile_move(self):
+        pygame.draw.circle(screen, self.color, (self.x, self.y), self.radius)
+>>>>>>> 5b12bbb26c292efc744eb5bca47c1e8501804476
 
-        self.position[0] += self.direction[0]*self.speed  
-        self.position[1] += self.direction[1]*self.speed
+    def move(self):
 
-    def update(self, screen):
-        
-        self.projectile_move()
-        self.projectile_draw(screen)
+        self.x += self.direction[0] * self.speed  
+        self.y += self.direction[1] * self.speed
+
+    def is_out_of_bound(self):
+
+        if self.x<0 or self.x>WIDTH or self.y<0 or self.y>HEIGHT:
+            return True
+        else:
+            return False
 
 
 class Sprites():
@@ -37,12 +46,24 @@ class Sprites():
         self.projectiles = []
         self.enemeies = []
 
-    def add_projectile(self, position, direction):
+    def add_projectile(self, projectile):
 
-        self.projectiles.append(Projectile(position, PROJECTILE_SPEED, YELLOW, PROJECTILE_RADIUS, direction))
+        self.projectiles.append(projectile)
 
-    def update(self, screen):
+    def update(self):
 
         for projectile in self.projectiles:
-            projectile.update(screen)
+
+            projectile.move()
+            if projectile.is_out_of_bound():
+                self.projectiles.remove(projectile)
+                del projectile
+
+    def draw(self, screen):
+
+        for projectile in self.projectiles:
+
+            projectile.draw(screen)
+
+
 
