@@ -3,35 +3,15 @@ from classes import *
 from constants import *
 from shapes import *
 from functions import *
+from screens import *
 
 def main():
 
-
     pygame.init()
     screen = pygame.display.set_mode(SIZE)
-    player = Player(shape1, WHITE) 
-    sprite_holder = Sprites(player)
-
-    while True:
-
-        for event in pygame.event.get():
-            
-            if event.type==pygame.QUIT: 
-                sys.exit()
-
-            sprite_holder.get_keyboard_input(event)
-
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                sprite_holder.player_shoot()
-        
-        if 1==random.randint(1,1000) and sprite_holder.get_num_enemies()<5:
-            enemy = create_enemy(sprite_holder.score)
-            sprite_holder.add_enemy(enemy)
-
-        sprite_holder.update()
-        screen.fill(BLACK)
-        sprite_holder.draw(screen)
-        pygame.display.flip()
+    pygame.display.set_caption("Space Shooter v1.0")
+    pygame.mixer.init()
+    start_screen(screen)
 
 if __name__ == "__main__":
 
