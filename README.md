@@ -13,6 +13,8 @@
     - Arquivo "shapes.py", inclui todos os formatos de nave disponiveis para o player e para os inimigos, os formatos são reservados para facilitar a distinção entre player e inimigos.
     - Arquivo "classes.py", neste arquivo estão os objetos e funções atrelados ao player e aos inimigos gerados pelo jogo, tendo em vista que ambos o objeto "player" e o objeto "enemy" derivam de uma mesma classe.
     - Arquivo "screens.py", neste arquivo estam localizadas as funções que "imprimem/exibem" o jogo na tela, assim como um simples andamento entre as telas, integrando os sons, imagens e inputs do player.
+    - Arquivo "projectiles.py", nele estão a criação dos projeteis e atualização dos mesmos (movimento).
+    - Arquivo "functions.py", contem a criação dos inimigos durante o gameplay.
 
 ### Ferramentas
 - Para elaboração e conclusão deste projeto utilizamos:
