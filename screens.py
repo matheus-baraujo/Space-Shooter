@@ -506,7 +506,7 @@ def gameplay_screen(screen, nickname, player_color, player_shape):
                 channel2.play(laser_shot, 0)
                 sprite_holder.player_shoot()
 
-        if 1==random.randint(1,300) and sprite_holder.get_num_enemies()<5:
+        if 1==random.randint(1,150) and sprite_holder.get_num_enemies()<5:
             enemy = create_enemy(sprite_holder.score)
             sprite_holder.add_enemy(enemy)
 
