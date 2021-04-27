@@ -103,6 +103,17 @@ def start_screen(screen):
 
     running = True
 
+    #setting music channels for the start screen
+    channel1 = pygame.mixer.Channel(0) 
+    channel2 = pygame.mixer.Channel(1)
+
+    start_screen_theme = pygame.mixer.Sound('sounds/start_screen_theme.mp3')
+    hyperspace_jump = pygame.mixer.Sound('sounds/hyperspace_jump.mp3')
+
+    channel1.play(start_screen_theme, -1)
+    channel1.set_volume(0.4)
+
+    
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE and not locked_controls:
@@ -114,6 +125,9 @@ def start_screen(screen):
                 nextScreen = 1
                 i = 255
                 locked_controls = True
+                channel1.fadeout(4000)
+                channel2.play(hyperspace_jump, 0)
+                channel2.fadeout(3000)
                 #running = False 
 
         screen.fill(BLACK)
@@ -175,7 +189,7 @@ def personalization_screen(screen):
     locked_controls = False
 
     #text input for nickname 
-    font = pygame.font.SysFont(None, 50)
+    font = pygame.font.SysFont('none', 50)
     text = "Anonymous"
     input_active = False
     text_color = (WHITE)
@@ -455,6 +469,24 @@ def gameplay_screen(screen, nickname, player_color, player_shape):
 
     star_field_slow, star_field_medium, star_field_fast, star_field_shooting = generate_star_field(width, height)
 
+
+    #setting music channels for the start screen
+    channel1 = pygame.mixer.Channel(0) # background music
+    channel2 = pygame.mixer.Channel(1) # player events
+    channel3 = pygame.mixer.Channel(2) # enemies events
+    channel4 = pygame.mixer.Channel(3) # screen transitions
+
+    channel1.set_volume(0.3)
+    channel2.set_volume(0.2)
+    channel3.set_volume(0.5)
+    channel4.set_volume(0.5)
+
+    gameplay_music = pygame.mixer.Sound('sounds/gameplay_music.mp3')
+    laser_shot = pygame.mixer.Sound('sounds/laser_shot_cut.mp3')
+
+    channel1.play( gameplay_music, -1)
+    
+
     while True:
 
         for event in pygame.event.get():
@@ -463,11 +495,14 @@ def gameplay_screen(screen, nickname, player_color, player_shape):
                 sys.exit()
 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                channel1.pause()
                 pause_screen(screen)
+                channel1.unpause()
 
             player.get_keyboard_input(event)
 
             if event.type == pygame.MOUSEBUTTONDOWN:
+                channel2.play(laser_shot, 0)
                 player.shoot(sprites_object)  
 
         player.update()
@@ -553,11 +588,11 @@ def pause_screen(screen):
         mouse_coord = pygame.mouse.get_pos()
      
         for event in pygame.event.get():
-            if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE or event.type == pygame.MOUSEBUTTONDOWN and WIDTH/2 - 45 < mouse_coord[0] < WIDTH/2 + 45 and HEIGHT/2.5 + 140 < mouse_coord[1] < HEIGHT/2.5 + 140 + 65:
+            if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE or event.type == pygame.MOUSEBUTTONDOWN and WIDTH/2 - 45 < mouse_coord[0] < WIDTH/2 + 45 and HEIGHT/2.5 + 90 < mouse_coord[1] < HEIGHT/2.5 + 90 + 65:
                 running = False 
                 #quit 
                 sys.exit() 
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE or event.type == pygame.MOUSEBUTTONDOWN and WIDTH/2 - 90 < mouse_coord[0] < WIDTH/2 + 45 and  HEIGHT/2.5 < mouse_coord[1] < HEIGHT/2.5 + 40:
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE or event.type == pygame.MOUSEBUTTONDOWN and WIDTH/2 - 90 < mouse_coord[0] < WIDTH/2 + 90 and  HEIGHT/2.5 + 30 < mouse_coord[1] < HEIGHT/2.5 + 30 + 40:
                 #resume game
                 running = False
 
