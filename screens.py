@@ -465,7 +465,7 @@ def gameplay_screen(screen, nickname, player_color, player_shape):
     elif(shape_selector == 2):
         player = Player(star_shape, player_color)    
 
-    sprites_object = Sprites()
+    sprite_holder = Sprites()
 
     star_field_slow, star_field_medium, star_field_fast, star_field_shooting = generate_star_field(width, height)
 
@@ -503,14 +503,17 @@ def gameplay_screen(screen, nickname, player_color, player_shape):
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 channel2.play(laser_shot, 0)
-                player.shoot(sprites_object)  
+                projectile = player.shoot(PROJECTILE_SPEED, YELLOW)
+                sprite_holder.add_projectile(projectile) 
 
         player.update()
+        sprite_holder.update()
         screen.fill(BLACK)
+
         animate_star_field(screen, star_field_slow, star_field_medium, star_field_fast, star_field_shooting, width, height)  
 
         player.draw(screen)
-        sprites_object.update(screen)
+        sprite_holder.draw(screen)
 
         screen.blit(top_screen_bar, (0,0))
         screen.blit(nick, (5, 15))
