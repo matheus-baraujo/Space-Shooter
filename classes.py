@@ -126,6 +126,17 @@ class Player(Spacecraft):
 
         Spacecraft.__init__(self, PLAYERX, PLAYERY, PLAYER_LIFE, PLAYER_SPEED, shape_function, color, PLAYER_ANGLE_SPEED, PLAYER_ANGLE)
         self.directions = [0, 0, 0, 0] # UP, DOWN, RIGHT, LEFT
+        self.has_shield = False
+
+    def register_hit(self, hitpoints=1):
+
+        '''
+        This function subtracts hits from a spacecraft's life.
+        '''
+        if self.has_shield:
+            self.has_shield = False
+        else:
+            self.life -= hitpoints
 
     def get_keyboard_input(self, event):
 
