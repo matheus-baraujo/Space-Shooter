@@ -35,3 +35,16 @@ def shape3(center_x, center_y):
     vertex6 = [center_x, center_y]
     vertex7 = [center_x-10, center_y+7.5]
     return [vertex1, vertex2, vertex3, vertex4, vertex5, vertex6, vertex7]
+
+def enemy_shape(center_x,center_y):
+
+    vertex1 = [center_x, center_y+10]
+    vertex2 = [center_x+5, center_y+10]
+    vertex3 = [center_x+5, center_y]
+    vertex4 = [center_x+15, center_y]
+    vertex5 = [center_x+15, center_y-10]
+    vertex6 = [center_x-15, center_y-10]
+    vertex7 = [center_x-15, center_y]
+    vertex8 = [center_x-5, center_y]
+    vertex9 = [center_x-5, center_y+10]
+    return [vertex1, vertex2, vertex3, vertex4, vertex5, vertex6, vertex7, vertex8, vertex9]
