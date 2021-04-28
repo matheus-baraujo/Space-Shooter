@@ -2,6 +2,7 @@ import pygame, random
 import sys
 import math
 from constants import *
+from functions import *
 
 
 class Spacecraft():
@@ -126,6 +127,21 @@ class Player(Spacecraft):
 
         Spacecraft.__init__(self, PLAYERX, PLAYERY, PLAYER_LIFE, PLAYER_SPEED, shape_function, color, PLAYER_ANGLE_SPEED, PLAYER_ANGLE)
         self.directions = [0, 0, 0, 0] # UP, DOWN, RIGHT, LEFT
+        self.has_shield = False
+
+    def register_hit(self, hitpoints=1):
+
+        '''
+        This function subtracts hits from a spacecraft's life.
+        '''
+        if self.has_shield:
+            self.has_shield = False
+        else:
+            self.life -= hitpoints
+
+    def heal(self):
+
+        self.life = min((5, self.life+1))
 
     def get_keyboard_input(self, event):
 
@@ -183,10 +199,13 @@ class Player(Spacecraft):
 class Enemy(Spacecraft):
 
 
-    def __init__(self, x_position, y_position, life, speed, shape_function, color, angle_speed, angle, max_distance_to_player):
+    def __init__(self, x_position, y_position, life, speed, shape_function, color, angle_speed, angle, max_distance_to_player, shoot_max):
 
         Spacecraft.__init__(self, x_position, y_position, life, speed, shape_function, color, angle_speed, angle)
         self.max_distance = max_distance_to_player
+        self.shoot_count = 0
+        self.shoot_max = shoot_max
+        self.shoot_lock = False
 
     def rotate(self, x_player, y_player):
 
@@ -250,14 +269,24 @@ class Sprites():
     def __init__(self, player):
 
         self.enemy_projectiles = []
+        self.powerups = []
         self.player_projectiles = []
         self.enemies = []
         self.player = player
         self.score = 0
 
-    def add_enemy(self, enemy):
+    def genarate_objects(self):
 
-        self.enemies.append(enemy)
+        if 1==random.randint(1,50) and len(self.enemies)<5:
+            enemy = create_enemy(self.score)
+            self.enemies.append(enemy)
+
+        if 1==random.randint(1, 300):
+            powerup_type = random.choice((0,1))
+            x_position = random.randint(0, WIDTH)
+            y_position = random.randint(0, HEIGHT)
+            power_up = PowerUp(x_position, y_position, powerup_type)
+            self.powerups.append(power_up)
 
     def get_keyboard_input(self, event):
 
@@ -268,10 +297,7 @@ class Sprites():
         projectile = self.player.shoot(PROJECTILE_SPEED, YELLOW)
         self.player_projectiles.append(projectile)
 
-    def update(self):
-
-        self.player.update()
-        x_pos, y_pos = self.player.get_position()
+    def update_projectiles(self):
 
         for projectile in self.player_projectiles:
             projectile.move()
@@ -299,6 +325,9 @@ class Sprites():
                 del projectile
                 continue
 
+    def update_enemies(self):
+
+        x_pos, y_pos = self.player.get_position()
         for enemy in self.enemies:
             enemy.update(x_pos, y_pos)
             if enemy.is_dead():
@@ -306,9 +335,33 @@ class Sprites():
                 self.score += 50
                 del enemy
                 continue
-            if 1==random.randint(1, 300):
+            if not enemy.shoot_lock:
                 enemy_projectile = enemy.shoot(PROJECTILE_SPEED/3, RED)
                 self.enemy_projectiles.append(enemy_projectile)
+                enemy.shoot_lock = True
+                enemy.shoot_count = 0
+            elif enemy.shoot_count < enemy.shoot_max:
+                enemy.shoot_count += 1
+            else:
+                enemy.shoot_lock = False
+
+    def update_player(self):
+
+        self.player.update()
+        for powerup in self.powerups:
+            if powerup.hitbox.colliderect(self.player.hitbox):
+                if powerup.type==0:
+                    self.player.heal()
+                elif powerup.type==1:
+                    self.player.has_shield = True
+                self.powerups.remove(powerup)
+                del powerup
+
+    def update(self):
+
+        self.update_player()
+        self.update_projectiles()
+        self.update_enemies()
 
     def draw(self, screen):
 
@@ -324,6 +377,38 @@ class Sprites():
         for enemy in self.enemies:
             enemy.draw(screen)
 
-    def get_num_enemies(self):
+        for powerup in self.powerups:
+            powerup.draw(screen)
 
-        return len(self.enemies)
+
+class PowerUp():
+
+    def __init__(self, x_position, y_position, powerup_type):
+
+        self.x = x_position
+        self.y = y_position
+        self.type = powerup_type
+        self.color = {0: RED, 1: BLUE}[powerup_type]
+        self.vertices = self.shape()
+        self.hitbox = pygame.Rect(0,0,0,0)
+    
+    def shape(self):
+
+        vertex1 = [self.x+3, self.y+3]
+        vertex2 = [self.x+3, self.y+10]
+        vertex3 = [self.x-3, self.y+10]
+        vertex4 = [self.x-3, self.y+3]
+        vertex5 = [self.x-10, self.y+3]
+        vertex6 = [self.x-10, self.y+-3]
+        vertex7 = [self.x-3, self.y-3]
+        vertex8 = [self.x-3, self.y-10]
+        vertex9 = [self.x+3, self.y-10]
+        vertex10 = [self.x+3, self.y-3]
+        vertex11 = [self.x+10, self.y-3]
+        vertex12 = [self.x+10, self.y+3]
+
+        return [vertex1, vertex2, vertex3, vertex4, vertex5, vertex6, vertex7, vertex8, vertex9, vertex10, vertex11, vertex12]
+
+    def draw(self, screen):
+
+        self.hitbox = pygame.draw.polygon(screen, self.color, self.vertices)
