@@ -604,12 +604,6 @@ def pause_screen(screen):
     button_resume = pygame.transform.scale(button_resume, (180, 40))
     button_resume = button_resume.convert_alpha()
 
-    '''
-    button_status = pygame.image.load(r'resources/button_status.png') # 249 x 81
-    button_status = pygame.transform.scale(button_status, (184, 60))
-    button_status = button_status.convert_alpha()
-    '''
-
     button_quit = pygame.image.load(r'resources/button_quit.png') # 143 x 104
     button_quit = pygame.transform.scale(button_quit, (90, 65))
     button_quit = button_quit.convert_alpha()
@@ -646,16 +640,14 @@ def ending_screen(screen, nickname, score):
 
     channel1 = pygame.mixer.Channel(0)
 
-
     nickname = nickname
     score = score
-
     message = "Congratulations "+nickname+", you scored "+str(score)
 
     if(score <= 500):
         provoke = "Wanna try harder this time?"
     elif(score <= 2500):
-        provoke = "Not bad at all, you are getting the hang of it"
+        provoke = "Not bad at all, you are getting the hang of it!"
     elif(score <= 5000):
         provoke = "Wow, you are good at this"        
 
@@ -679,7 +671,6 @@ def ending_screen(screen, nickname, score):
     play_again = pygame.image.load(r'resources/button_play_again.png') # 352 x 107
     play_again = pygame.transform.scale(play_again, (200 ,60))
     play_again = play_again.convert_alpha()
-
 
     running = True
 
