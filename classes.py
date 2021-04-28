@@ -199,10 +199,13 @@ class Player(Spacecraft):
 class Enemy(Spacecraft):
 
 
-    def __init__(self, x_position, y_position, life, speed, shape_function, color, angle_speed, angle, max_distance_to_player):
+    def __init__(self, x_position, y_position, life, speed, shape_function, color, angle_speed, angle, max_distance_to_player, shoot_max):
 
         Spacecraft.__init__(self, x_position, y_position, life, speed, shape_function, color, angle_speed, angle)
         self.max_distance = max_distance_to_player
+        self.shoot_count = 0
+        self.shoot_max = shoot_max
+        self.shoot_lock = False
 
     def rotate(self, x_player, y_player):
 
@@ -332,9 +335,15 @@ class Sprites():
                 self.score += 50
                 del enemy
                 continue
-            if 1==random.randint(1, 30):
+            if not enemy.shoot_lock:
                 enemy_projectile = enemy.shoot(PROJECTILE_SPEED/3, RED)
                 self.enemy_projectiles.append(enemy_projectile)
+                enemy.shoot_lock = True
+                enemy.shoot_count = 0
+            elif enemy.shoot_count < enemy.shoot_max:
+                enemy.shoot_count += 1
+            else:
+                enemy.shoot_lock = False
 
     def update_player(self):
 

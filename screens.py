@@ -581,7 +581,7 @@ def gameplay_screen(screen, nickname, player_color, player_shape):
         clock.tick(30)
 
         if sprite_holder.player.is_dead():
-            return ending_screen(screen, nickname, score)
+            return ending_screen(screen, nickname, sprite_holder.score)
 
 
 def pause_screen(screen):
