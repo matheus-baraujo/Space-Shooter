@@ -332,7 +332,7 @@ class Sprites():
                 self.score += 50
                 del enemy
                 continue
-            if 1==random.randint(1, 300):
+            if 1==random.randint(1, 20):
                 enemy_projectile = enemy.shoot(PROJECTILE_SPEED/3, RED)
                 self.enemy_projectiles.append(enemy_projectile)
 
