@@ -72,7 +72,17 @@ class Spacecraft():
         the method that calculates the displacement. Meaning that this method can displace a spacecraft
         by anyamount.
         '''
-        
+
+        for vertex in self.vertices:
+
+            if (vertex[0]<=10 and displacement_x<0) or (vertex[0]>=WIDTH-10 and displacement_x>0):
+
+                displacement_x = 0
+
+            if (vertex[1]<=60 and displacement_y<0) or (vertex[1]>=HEIGHT-10 and displacement_y>0):
+
+                displacement_y = 0
+            
         self.x += displacement_x
         self.y += displacement_y
         for vertex in self.vertices:
