@@ -72,7 +72,17 @@ class Spacecraft():
         the method that calculates the displacement. Meaning that this method can displace a spacecraft
         by anyamount.
         '''
-        
+
+        for vertex in self.vertices:
+
+            if (vertex[0]<=10 and displacement_x<0) or (vertex[0]>=WIDTH-10 and displacement_x>0):
+
+                displacement_x = 0
+
+            if (vertex[1]<=60 and displacement_y<0) or (vertex[1]>=HEIGHT-10 and displacement_y>0):
+
+                displacement_y = 0
+            
         self.x += displacement_x
         self.y += displacement_y
         for vertex in self.vertices:
@@ -291,8 +301,8 @@ class Sprites():
 
         if 1==random.randint(1, 300):
             powerup_type = random.choice((0,1))
-            x_position = random.randint(0, WIDTH)
-            y_position = random.randint(0, HEIGHT)
+            x_position = random.randint(20, WIDTH-20)
+            y_position = random.randint(80, HEIGHT-20)
             power_up = PowerUp(x_position, y_position, powerup_type)
             self.powerups.append(power_up)
 
