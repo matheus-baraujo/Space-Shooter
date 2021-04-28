@@ -104,9 +104,11 @@ def start_screen(screen):
 
     running = True
 
-    #setting music channels for the start screen
+    #setting music channels 
     channel1 = pygame.mixer.Channel(0) 
     channel2 = pygame.mixer.Channel(1)
+    channel3 = pygame.mixer.Channel(2) 
+    channel4 = pygame.mixer.Channel(3)
 
     start_screen_theme = pygame.mixer.Sound('sounds/start_screen_theme.mp3')
     hyperspace_jump = pygame.mixer.Sound('sounds/hyperspace_jump.mp3')
@@ -180,6 +182,17 @@ def personalization_screen(screen):
     screen = screen
     height = pygame.display.Info().current_h
     width = pygame.display.Info().current_w
+    
+    #setting music channels for the gameplay screen
+    channel1 = pygame.mixer.Channel(0)  #background music
+    channel2 = pygame.mixer.Channel(1)  #customizing buttons
+    channel3 = pygame.mixer.Channel(2)  #transition buttons
+
+    customization_screen_music = pygame.mixer.Sound('sounds/customization_screen_music.mp3')
+    customizing_sound = pygame.mixer.Sound('sounds/button_sound.mp3')
+    transition_button_sound = pygame.mixer.Sound('sounds/button2_sound.mp3')
+
+    channel1.play(customization_screen_music, -1)
     
     #elements utilized during the screen transition
     transition_slab = pygame.Surface(SIZE)
@@ -325,6 +338,7 @@ def personalization_screen(screen):
                 highlight3.set_alpha(0)
                 highlight4.set_alpha(0)
                 highlight5.set_alpha(0)
+                channel2.play(customizing_sound, 0)
             if event.type == pygame.MOUSEBUTTONDOWN and not locked_controls and WIDTH/11 + 284<=mouse_coord[0]<=WIDTH/11 + 324 and HEIGHT/1.8 + 5<=mouse_coord[1]<=HEIGHT/1.8 + 45:
                 color_output = CYAN
                 highlight1.set_alpha(0)
@@ -332,6 +346,7 @@ def personalization_screen(screen):
                 highlight3.set_alpha(0)
                 highlight4.set_alpha(0)
                 highlight5.set_alpha(0)
+                channel2.play(customizing_sound, 0)
             if event.type == pygame.MOUSEBUTTONDOWN and not locked_controls and WIDTH/11 + 334<=mouse_coord[0]<=WIDTH/11 + 374 and HEIGHT/1.8 + 5<=mouse_coord[1]<=HEIGHT/1.8 + 45:        
                 color_output = MAGENTA
                 highlight1.set_alpha(0)
@@ -339,6 +354,7 @@ def personalization_screen(screen):
                 highlight3.set_alpha(255)
                 highlight4.set_alpha(0)
                 highlight5.set_alpha(0)
+                channel2.play(customizing_sound, 0)
             if event.type == pygame.MOUSEBUTTONDOWN and not locked_controls and WIDTH/11 + 384<=mouse_coord[0]<=WIDTH/11 + 424 and HEIGHT/1.8 + 5<=mouse_coord[1]<=HEIGHT/1.8 + 45:        
                 color_output = ORANGE
                 highlight1.set_alpha(0)
@@ -346,26 +362,32 @@ def personalization_screen(screen):
                 highlight3.set_alpha(0)
                 highlight4.set_alpha(255)
                 highlight5.set_alpha(0)
+                channel2.play(customizing_sound, 0)
             if event.type == pygame.MOUSEBUTTONDOWN and not locked_controls and WIDTH/11 + 434<=mouse_coord[0]<=WIDTH/11 + 474 and HEIGHT/1.8 + 5<=mouse_coord[1]<=HEIGHT/1.8 + 45:        
                 color_output = RED
                 highlight1.set_alpha(0)
                 highlight2.set_alpha(0)
                 highlight3.set_alpha(0)
                 highlight4.set_alpha(0)
-                highlight5.set_alpha(255)        
+                highlight5.set_alpha(255)       
+                channel2.play(customizing_sound, 0) 
 
             # receives the shape selection
             # arrow right button
             if event.type == pygame.MOUSEBUTTONDOWN and not locked_controls and shape_output < 2 and WIDTH/2 + 335 <=mouse_coord[0]<= WIDTH/2 + 381 and 245 <=mouse_coord[1]<= 325:
                 shape_output += 1
+                channel2.play(customizing_sound, 0)
             # arrow left button
             if event.type == pygame.MOUSEBUTTONDOWN and not locked_controls and shape_output > 0 and WIDTH/2 + 130 <=mouse_coord[0]<= WIDTH/2 + 176 and 245 <=mouse_coord[1]<= 325:    
                 shape_output -= 1
+                channel2.play(customizing_sound, 0)
 
             #passes to the next screen
             if event.type == pygame.MOUSEBUTTONDOWN and button_next_slab.get_alpha() == 128 and not locked_controls:
                 transition = True
+                channel1.fadeout(1500)
                 locked_controls = True
+                channel3.play(transition_button_sound, 0)
             
         animate_star_field(screen, star_field_slow, star_field_medium, star_field_fast, star_field_shooting, width, height)  
 
@@ -479,12 +501,12 @@ def gameplay_screen(screen, nickname, player_color, player_shape):
     star_field_slow, star_field_medium, star_field_fast, star_field_shooting = generate_star_field(width, height)
 
 
-    #setting music channels for the start screen
-    channel1 = pygame.mixer.Channel(0) # background music
-    channel2 = pygame.mixer.Channel(1) # player events
-    channel3 = pygame.mixer.Channel(2) # enemies events
-    channel4 = pygame.mixer.Channel(3) # screen transitions
-
+    #setting music channels for the gameplay screen
+    channel1 = pygame.mixer.Channel(0)  #background music
+    channel2 = pygame.mixer.Channel(1)  #player events
+    channel3 = pygame.mixer.Channel(2)  #enemies events
+    channel4 = pygame.mixer.Channel(3)  #screen transitions
+    
     channel1.set_volume(0.3)
     channel2.set_volume(0.2)
     channel3.set_volume(0.5)
