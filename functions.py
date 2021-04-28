@@ -7,7 +7,7 @@ def create_enemy(score):
 
     level = int(score/1500)
     level = max((1, level))
-    colors = PURPLE, ORANGE, CYAN, BLUE
+    colors = GREEN, PURPLE, BLUE
     shape = enemy_shape
     color = random.choice(colors)
     x_position = random.randrange(10, WIDTH-10)
