@@ -138,6 +138,10 @@ class Player(Spacecraft):
         else:
             self.life -= hitpoints
 
+    def heal(self):
+
+        self.life = min((5, self.life+1))
+
     def get_keyboard_input(self, event):
 
         if event.type == pygame.KEYDOWN: #buttons pressed
