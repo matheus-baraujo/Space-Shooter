@@ -8,9 +8,8 @@ def create_enemy(score):
     level = int(score/2500)
     level = max((1, level))
     colors = PURPLE, ORANGE, CYAN, BLUE
-    shapes = shape1,
+    shape = enemy_shape
     color = random.choice(colors)
-    shape = random.choice(shapes)
     x_position = random.randrange(10, WIDTH-10)
     y_position = random.randrange(60, HEIGHT-10)
     life = random.randint(1, int(level))

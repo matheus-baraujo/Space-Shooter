@@ -394,7 +394,7 @@ def personalization_screen(screen):
         elif(shape_output == 1):
             chosen_shape = shape2(selecting_shape_local[0], selecting_shape_local[1])
         elif(shape_output == 2):
-            chosen_shape = star_shape(selecting_shape_local[0], selecting_shape_local[1])    
+            chosen_shape = shape3(selecting_shape_local[0], selecting_shape_local[1])    
         
         pygame.draw.polygon(screen, color_output, chosen_shape)
 
@@ -472,7 +472,7 @@ def gameplay_screen(screen, nickname, player_color, player_shape):
     elif(shape_selector == 1):
         player = Player(shape2, player_color)
     elif(shape_selector == 2):
-        player = Player(star_shape, player_color)    
+        player = Player(shape3, player_color)    
 
     sprite_holder = Sprites(player)
 
