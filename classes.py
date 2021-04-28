@@ -195,6 +195,14 @@ class Player(Spacecraft):
         self.move()
         self.rotate()
 
+    def draw(self, screen):
+
+        if not self.has_shield:
+            self.hitbox = pygame.draw.polygon(screen, self.color, self.vertices)
+        else:
+            pygame.draw.polygon(screen, self.color, self.vertices)
+            self.hitbox = pygame.draw.circle(screen, BLUE, (self.x, self.y), 25, 5)
+
     
 class Enemy(Spacecraft):
 
