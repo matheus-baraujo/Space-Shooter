@@ -327,3 +327,12 @@ class Sprites():
     def get_num_enemies(self):
 
         return len(self.enemies)
+
+def PowerUp():
+
+    def __init__(self, x_position, y_position, type):
+
+        self.x = x_position
+        self.y = y_position
+    
+    def shape_health(self)
