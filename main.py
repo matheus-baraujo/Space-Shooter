@@ -12,6 +12,7 @@ def main():
     pygame.display.set_caption("Space Shooter v1.0")
     pygame.mixer.init()
     start_screen(screen)
+    #ending_screen(screen, "Anonymous", 50)
 
 if __name__ == "__main__":
 

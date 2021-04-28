@@ -491,11 +491,16 @@ def gameplay_screen(screen, nickname, player_color, player_shape):
     channel4.set_volume(0.5)
 
     gameplay_music = pygame.mixer.Sound('sounds/gameplay_music.mp3')
-    laser_shot = pygame.mixer.Sound('sounds/laser_shot_cut.mp3')
+    laser_shot = pygame.mixer.Sound('sounds/laser_shot.mp3')
 
     channel1.play( gameplay_music, -1)
 
-    while True:
+    running = True
+
+    shoot_lock = False
+    shoot_count = 0
+
+    while running:
 
         for event in pygame.event.get():
             
@@ -509,9 +514,17 @@ def gameplay_screen(screen, nickname, player_color, player_shape):
 
             player.get_keyboard_input(event)
 
-            if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.type == pygame.MOUSEBUTTONDOWN and not shoot_lock:
+                shoot_lock = True
                 channel2.play(laser_shot, 0)
+                channel2.fadeout(500)
                 sprite_holder.player_shoot()
+
+        if shoot_lock:
+            shoot_count += 1
+            if shoot_count >= 25:
+                shoot_count = 0
+                shoot_lock = False
 
         if 1==random.randint(1,150) and sprite_holder.get_num_enemies()<5:
             enemy = create_enemy(sprite_holder.score)
@@ -559,9 +572,10 @@ def gameplay_screen(screen, nickname, player_color, player_shape):
             transition = True    
 
         if (transition):
-            transition_alpha += 5
+            transition_alpha += 20
             transition_slab.set_alpha(transition_alpha)
             if(transition_alpha >= 255):
+                channel1.fadeout(1500)
                 running = False
 
         screen.blit(transition_slab,(0, 0))
@@ -633,24 +647,73 @@ def ending_screen(screen, nickname, score):
     height = pygame.display.Info().current_h
     width = pygame.display.Info().current_w
 
+    channel1 = pygame.mixer.Channel(0)
+
+
+    nickname = nickname
+    score = score
+
+    message = "Congratulations "+nickname+", you scored "+str(score)
+
+    if(score <= 500):
+        provoke = "Wanna try harder this time?"
+    elif(score <= 2500):
+        provoke = "Not bad at all, you are getting the hang of it"
+    elif(score <= 5000):
+        provoke = "Wow, you are good at this"        
+
+    font = pygame.font.SysFont(None, 40)
+    message = font.render(message, True, LIGHTGREY)
+    message_rect = message.get_rect(center=(WIDTH/2, HEIGHT/2))
+    provoke = font.render(provoke, True, LIGHTGREY)
+    provoke_rect = provoke.get_rect(center=(WIDTH/2, HEIGHT/2+50))
+
     clock = pygame.time.Clock()
     star_field_slow, star_field_medium, star_field_fast, star_field_shooting = generate_star_field(width, height)
+
+    game_over = pygame.image.load(r'resources/title_game_over.png') # 358 x 81
+    game_over = pygame.transform.scale(game_over, (460, 104))
+    game_over = game_over.convert_alpha()
+
+    leave = pygame.image.load(r'resources/button_leave.png') # 202 x 81
+    leave = pygame.transform.scale(leave, (150, 60))
+    leave = leave.convert_alpha()
+
+    play_again = pygame.image.load(r'resources/button_play_again.png') # 352 x 107
+    play_again = pygame.transform.scale(play_again, (200 ,60))
+    play_again = play_again.convert_alpha()
+
 
     running = True
 
     while running:
-        screen.fill(BLACK)
 
+        mouse_coord = pygame.mouse.get_pos()
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 running = False 
                 #quit 
                 sys.exit() 
-            if event.type == pygame.MOUSEBUTTONDOWN and button_next_slab.get_alpha() == 128:
-                #passes to the next screen
-                running = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if WIDTH-WIDTH/4<=mouse_coord[0]<=WIDTH-WIDTH/4+200 and HEIGHT-HEIGHT/4.5<=mouse_coord[1]<=HEIGHT-HEIGHT/4.5+60 :
+                    #return to the personalization screen
+                    running = False
+                    return personalization_screen(screen)
 
+                if WIDTH/8<=mouse_coord[0]<=WIDTH/8+150 and HEIGHT-HEIGHT/4.5<=mouse_coord[1]<=HEIGHT-HEIGHT/4.5+60 :
+                    running = False
+                    sys.exit()
+
+        screen.fill(BLACK)
         animate_star_field(screen, star_field_slow, star_field_medium, star_field_fast, star_field_shooting, width, height)  
+
+        screen.blit(game_over, (WIDTH/2-230, HEIGHT/5.5))
+        screen.blit(leave, (WIDTH/8, HEIGHT-HEIGHT/4.5))
+        screen.blit(play_again, (WIDTH-WIDTH/4, HEIGHT-HEIGHT/4.5))
+
+        screen.blit(message, message_rect)
+        screen.blit(provoke, provoke_rect)
 
         pygame.display.update()
         clock.tick(30)
