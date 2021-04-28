@@ -673,17 +673,31 @@ def ending_screen(screen, nickname, score):
     channel2 = pygame.mixer.Channel(1)  #transition buttons
 
     transition_button_sound = pygame.mixer.Sound('sounds/button2_sound.mp3')
+    start_screen = pygame.mixer.Sound('sounds/start_screen_theme.mp3')
+    danger_zone = pygame.mixer.Sound('sounds/danger_zone_music.mp3')
+    clone_wars = pygame.mixer.Sound('sounds/clone_wars_music.mp3')
 
     nickname = nickname
     score = score
     message = "Congratulations "+nickname+", you scored "+str(score)
+    reward = ""
 
-    if(score <= 500):
+    if(score < 500):
         provoke = "Wanna try harder this time?"
-    elif(score <= 2500):
-        provoke = "Not bad at all, you are getting the hang of it!"
-    elif(score <= 5000):
-        provoke = "Wow, you are good at this"        
+        channel1.play(start_screen, -1)
+    elif(score < 2500):
+        provoke = "You are getting the hang of it, welcome to the Danger Zone!"
+        reward = "Reward: nickname 'T0pGun'"
+        channel1.play(danger_zone, -1)
+    elif(score < 5000):
+        provoke = "You are good at this, try get a little higher"
+        reward = "Reward: nickname '4pollo11'" 
+    elif(score < 9000):
+        provoke = "You are a TRUE master, try to conquer the galaxy"
+        reward = "Reward: nickname 'D4arthV4der'"
+        channel1.play(clone_wars, -1)
+    elif(score < 15000):
+        provoke = "You are a TRUE WINNER"
 
     font = pygame.font.SysFont(None, 40)
     message = font.render(message, True, LIGHTGREY)
@@ -701,12 +715,12 @@ def ending_screen(screen, nickname, score):
     leave = pygame.image.load(r'resources/button_leave.png') # 202 x 81
     leave = pygame.transform.scale(leave, (150, 60))
     leave = leave.convert_alpha()
-    alpha1 = 255
+    alpha1 = 128
 
     play_again = pygame.image.load(r'resources/button_play_again.png') # 352 x 107
     play_again = pygame.transform.scale(play_again, (200 ,60))
     play_again = play_again.convert_alpha()
-    alpha2 = 255
+    alpha2 = 128
 
     Fade = False
 
@@ -733,15 +747,15 @@ def ending_screen(screen, nickname, score):
                     sys.exit()
 
         if WIDTH-WIDTH/4<=mouse_coord[0]<=WIDTH-WIDTH/4+200 and HEIGHT-HEIGHT/4.5<=mouse_coord[1]<=HEIGHT-HEIGHT/4.5+60 :
-            leave.set_alpha(128)
+            play_again.set_alpha(255)
         else:
-            leave.set_alpha(255)
+            play_again.set_alpha(128)
 
         if WIDTH/8<=mouse_coord[0]<=WIDTH/8+150 and HEIGHT-HEIGHT/4.5<=mouse_coord[1]<=HEIGHT-HEIGHT/4.5+60:
-            play_again.set_alpha(128)
+            leave.set_alpha(255)
         else:
-            play_again.set_alpha(255)
-        
+            leave.set_alpha(128)
+
         screen.fill(BLACK)
         animate_star_field(screen, star_field_slow, star_field_medium, star_field_fast, star_field_shooting, width, height)  
 
