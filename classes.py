@@ -330,9 +330,31 @@ class Sprites():
 
 def PowerUp():
 
-    def __init__(self, x_position, y_position, type):
+    def __init__(self, x_position, y_position, powerup_type):
 
         self.x = x_position
         self.y = y_position
+        self.type = powerup_type
+        self.color = {0: RED, 1: BLUE}[powerup_type]
+        self.vertices = shape(self)
+        self.hitbox = pygame.Rect(0,0,0,0)
     
-    def shape_health(self)
+    def shape(self):
+
+        vertex1 = [self.x+3, self.y+3]
+        vertex2 = [self.x+3, self.y+10]
+        vertex3 = [self.x-3, self.y+10]
+        vertex4 = [self.x-10, self.y+3]
+        vertex5 = [self.x-10, self.y+-3]
+        vertex6 = [self.x-3, self.y-3]
+        vertex7 = [self.x-3, self.y-10]
+        vertex8 = [self.x+3, self.y-10]
+        vertex9 = [self.x+3, self.y-3]
+        vertex10 = [self.x+10, self.y-3]
+        vertex11 = [self.x+10, self.y+3]
+        
+        return [vertex1, vertex2, vertex3, vertex4, vertex5, vertex6, vertex7, vertex8, vertex9, vertex10, vertex11]
+
+    def draw(self):
+
+        self.hitbox = pygame.draw.polygon(screen, self.colors, self.vertices)
