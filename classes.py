@@ -271,9 +271,18 @@ class Sprites():
         self.player = player
         self.score = 0
 
-    def add_enemy(self, enemy):
+    def genarate_objects(self):
 
-        self.enemies.append(enemy)
+        if 1==random.randint(1,100) and len(self.enemies)<5:
+            enemy = create_enemy(self.score)
+            self.enemies.append(enemy)
+
+        if 1==random.randint(1, 150):
+            powerup_type = random.choice((0,1))
+            x_position = random.randint(0, WIDTH)
+            y_position = random.randint(0, HEIGHT)
+            power_up = PowerUp(x_position, y_position, powerup_type)
+            self.powerups.append(power_up)
 
     def get_keyboard_input(self, event):
 
@@ -358,9 +367,7 @@ class Sprites():
         for enemy in self.enemies:
             enemy.draw(screen)
 
-    def get_num_enemies(self):
-
-        return len(self.enemies)
+    
 
 def PowerUp():
 
