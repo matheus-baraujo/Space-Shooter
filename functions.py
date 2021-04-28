@@ -5,7 +5,7 @@ import random
 
 def create_enemy(score):
 
-    level = int(score/2500)
+    level = int(score/1500)
     level = max((1, level))
     colors = PURPLE, ORANGE, CYAN, BLUE
     shape = enemy_shape
