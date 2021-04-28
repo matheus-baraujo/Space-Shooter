@@ -265,6 +265,7 @@ class Sprites():
     def __init__(self, player):
 
         self.enemy_projectiles = []
+        self.powerups = []
         self.player_projectiles = []
         self.enemies = []
         self.player = player
@@ -283,10 +284,7 @@ class Sprites():
         projectile = self.player.shoot(PROJECTILE_SPEED, YELLOW)
         self.player_projectiles.append(projectile)
 
-    def update(self):
-
-        self.player.update()
-        x_pos, y_pos = self.player.get_position()
+    def update_projectiles(self):
 
         for projectile in self.player_projectiles:
             projectile.move()
@@ -314,6 +312,9 @@ class Sprites():
                 del projectile
                 continue
 
+    def update_enemies(self):
+
+        x_pos, y_pos = self.player.get_position()
         for enemy in self.enemies:
             enemy.update(x_pos, y_pos)
             if enemy.is_dead():
@@ -324,6 +325,24 @@ class Sprites():
             if 1==random.randint(1, 300):
                 enemy_projectile = enemy.shoot(PROJECTILE_SPEED/3, RED)
                 self.enemy_projectiles.append(enemy_projectile)
+
+    def update_player(self):
+
+        self.player.update()
+        for powerup in self.powerups:
+            if powerup.hitbox.colliderect(self.player.hitbox):
+                if powerup.type==0:
+                    self.player.heal()
+                elif powerup.type==1:
+                    self.player.has_shield = True
+                self.powerups.remove(powerup)
+                del powerup
+
+    def update(self):
+
+        self.update_player()
+        self.update_projectiles()
+        self.update_enemies()
 
     def draw(self, screen):
 
