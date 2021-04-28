@@ -520,15 +520,12 @@ def gameplay_screen(screen, nickname, player_color, player_shape):
                 channel2.fadeout(500)
                 sprite_holder.player_shoot()
 
+        sprite_holder.genarate_objects()
         if shoot_lock:
             shoot_count += 1
             if shoot_count >= 25:
                 shoot_count = 0
                 shoot_lock = False
-
-        if 1==random.randint(1,150) and sprite_holder.get_num_enemies()<5:
-            enemy = create_enemy(sprite_holder.score)
-            sprite_holder.add_enemy(enemy)
 
         sprite_holder.update()
         screen.fill(BLACK)
@@ -583,8 +580,8 @@ def gameplay_screen(screen, nickname, player_color, player_shape):
         pygame.display.flip()
         clock.tick(30)
 
-    return ending_screen(screen, nickname, score)
-
+        if sprite_holder.player.is_dead():
+            return ending_screen(screen, nickname, score)
 
 
 def pause_screen(screen):
