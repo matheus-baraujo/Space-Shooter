@@ -12,7 +12,7 @@ def create_enemy(score):
     color = random.choice(colors)
     shape = random.choice(shapes)
     x_position = random.randrange(10, WIDTH-10)
-    y_position = random.randrange(10, HEIGHT-10)
+    y_position = random.randrange(60, HEIGHT-10)
     life = random.randint(1, int(level))
     speed = random.uniform(0.2, 0.5) * level
     angle_speed = random.uniform(0.1, 0.2) * level
