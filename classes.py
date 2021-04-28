@@ -274,11 +274,11 @@ class Sprites():
 
     def genarate_objects(self):
 
-        if 1==random.randint(1,100) and len(self.enemies)<5:
+        if 1==random.randint(1,50) and len(self.enemies)<5:
             enemy = create_enemy(self.score)
             self.enemies.append(enemy)
 
-        if 1==random.randint(1, 150):
+        if 1==random.randint(1, 300):
             powerup_type = random.choice((0,1))
             x_position = random.randint(0, WIDTH)
             y_position = random.randint(0, HEIGHT)
@@ -332,7 +332,7 @@ class Sprites():
                 self.score += 50
                 del enemy
                 continue
-            if 1==random.randint(1, 20):
+            if 1==random.randint(1, 30):
                 enemy_projectile = enemy.shoot(PROJECTILE_SPEED/3, RED)
                 self.enemy_projectiles.append(enemy_projectile)
 
