@@ -1,4 +1,4 @@
-from classes import *
+import classes
 from constants import *
 from shapes import *
 import random
@@ -17,5 +17,5 @@ def create_enemy(score):
     speed = random.uniform(0.01, 0.1) * level
     angle_speed = random.uniform(0.01, 0.02) * level
     max_distance = random.randint(150, 400)
-    enemy = Enemy(x_position, y_position, life, speed, shape, color, angle_speed, 0, max_distance)
+    enemy = classes.Enemy(x_position, y_position, life, speed, shape, color, angle_speed, 0, max_distance)
     return enemy

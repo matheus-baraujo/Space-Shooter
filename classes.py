@@ -2,6 +2,7 @@ import pygame, random
 import sys
 import math
 from constants import *
+from functions import *
 
 
 class Spacecraft():
@@ -367,9 +368,8 @@ class Sprites():
         for enemy in self.enemies:
             enemy.draw(screen)
 
-    
 
-def PowerUp():
+class PowerUp():
 
     def __init__(self, x_position, y_position, powerup_type):
 
@@ -377,7 +377,7 @@ def PowerUp():
         self.y = y_position
         self.type = powerup_type
         self.color = {0: RED, 1: BLUE}[powerup_type]
-        self.vertices = shape(self)
+        self.vertices = self.shape()
         self.hitbox = pygame.Rect(0,0,0,0)
     
     def shape(self):
