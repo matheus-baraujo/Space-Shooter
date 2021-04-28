@@ -28,12 +28,12 @@ def shape2(center_x, center_y):
 def shape3(center_x, center_y):
 
     vertex1 = [center_x, center_y+15]
-    vertex2 = [center_x+10, center_y+7.5]
+    vertex2 = [center_x+10, center_y-2.5]
     vertex3 = [center_x, center_y]
     vertex4 = [center_x+10, center_y-15]
     vertex5 = [center_x-10, center_y-15]
     vertex6 = [center_x, center_y]
-    vertex7 = [center_x-10, center_y+7.5]
+    vertex7 = [center_x-10, center_y-2.5]
     return [vertex1, vertex2, vertex3, vertex4, vertex5, vertex6, vertex7]
 
 def enemy_shape(center_x,center_y):

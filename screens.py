@@ -504,7 +504,7 @@ def gameplay_screen(screen, nickname, player_color, player_shape):
     #setting music channels for the gameplay screen
     channel1 = pygame.mixer.Channel(0)  #background music
     channel2 = pygame.mixer.Channel(1)  #player events
-    channel3 = pygame.mixer.Channel(2)  #enemies events
+    channel3 = pygame.mixer.Channel(2)  #enemies events/player got hit
     channel4 = pygame.mixer.Channel(3)  #screen transitions
     
     channel1.set_volume(0.3)
@@ -514,6 +514,7 @@ def gameplay_screen(screen, nickname, player_color, player_shape):
 
     gameplay_music = pygame.mixer.Sound('sounds/gameplay_music.mp3')
     laser_shot = pygame.mixer.Sound('sounds/laser_shot.mp3')
+    player_hited = pygame.mixer.Sound('sounds/player_hited.mp3')
 
     channel1.play( gameplay_music, -1)
 
@@ -523,6 +524,8 @@ def gameplay_screen(screen, nickname, player_color, player_shape):
     shoot_count = 0
 
     while running:
+
+        hp_pre_hit = player.life
 
         for event in pygame.event.get():
             
@@ -589,6 +592,11 @@ def gameplay_screen(screen, nickname, player_color, player_shape):
         if player.life == 0:
             locked_controls = True
             transition = True    
+
+        hp_post_hit = player.life
+
+        if hp_post_hit < hp_pre_hit:
+            channel2.play(player_hited)
 
         if (transition):
             transition_alpha += 20
@@ -660,7 +668,11 @@ def ending_screen(screen, nickname, score):
     height = pygame.display.Info().current_h
     width = pygame.display.Info().current_w
 
-    channel1 = pygame.mixer.Channel(0)
+    #setting music channels for the gameplay screen
+    channel1 = pygame.mixer.Channel(0)  #background music
+    channel2 = pygame.mixer.Channel(1)  #transition buttons
+
+    transition_button_sound = pygame.mixer.Sound('sounds/button2_sound.mp3')
 
     nickname = nickname
     score = score
@@ -689,10 +701,14 @@ def ending_screen(screen, nickname, score):
     leave = pygame.image.load(r'resources/button_leave.png') # 202 x 81
     leave = pygame.transform.scale(leave, (150, 60))
     leave = leave.convert_alpha()
+    alpha1 = 255
 
     play_again = pygame.image.load(r'resources/button_play_again.png') # 352 x 107
     play_again = pygame.transform.scale(play_again, (200 ,60))
     play_again = play_again.convert_alpha()
+    alpha2 = 255
+
+    Fade = False
 
     running = True
 
@@ -708,6 +724,7 @@ def ending_screen(screen, nickname, score):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if WIDTH-WIDTH/4<=mouse_coord[0]<=WIDTH-WIDTH/4+200 and HEIGHT-HEIGHT/4.5<=mouse_coord[1]<=HEIGHT-HEIGHT/4.5+60 :
                     #return to the personalization screen
+                    channel2.play(transition_button_sound, 0)
                     running = False
                     return personalization_screen(screen)
 
@@ -715,6 +732,16 @@ def ending_screen(screen, nickname, score):
                     running = False
                     sys.exit()
 
+        if WIDTH-WIDTH/4<=mouse_coord[0]<=WIDTH-WIDTH/4+200 and HEIGHT-HEIGHT/4.5<=mouse_coord[1]<=HEIGHT-HEIGHT/4.5+60 :
+            leave.set_alpha(128)
+        else:
+            leave.set_alpha(255)
+
+        if WIDTH/8<=mouse_coord[0]<=WIDTH/8+150 and HEIGHT-HEIGHT/4.5<=mouse_coord[1]<=HEIGHT-HEIGHT/4.5+60:
+            play_again.set_alpha(128)
+        else:
+            play_again.set_alpha(255)
+        
         screen.fill(BLACK)
         animate_star_field(screen, star_field_slow, star_field_medium, star_field_fast, star_field_shooting, width, height)  
 
