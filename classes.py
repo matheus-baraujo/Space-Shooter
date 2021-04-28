@@ -368,6 +368,9 @@ class Sprites():
         for enemy in self.enemies:
             enemy.draw(screen)
 
+        for powerup in self.powerups:
+            powerup.draw(screen)
+
 
 class PowerUp():
 
@@ -385,17 +388,18 @@ class PowerUp():
         vertex1 = [self.x+3, self.y+3]
         vertex2 = [self.x+3, self.y+10]
         vertex3 = [self.x-3, self.y+10]
-        vertex4 = [self.x-10, self.y+3]
-        vertex5 = [self.x-10, self.y+-3]
-        vertex6 = [self.x-3, self.y-3]
-        vertex7 = [self.x-3, self.y-10]
-        vertex8 = [self.x+3, self.y-10]
-        vertex9 = [self.x+3, self.y-3]
-        vertex10 = [self.x+10, self.y-3]
-        vertex11 = [self.x+10, self.y+3]
-        
-        return [vertex1, vertex2, vertex3, vertex4, vertex5, vertex6, vertex7, vertex8, vertex9, vertex10, vertex11]
+        vertex4 = [self.x-3, self.y+3]
+        vertex5 = [self.x-10, self.y+3]
+        vertex6 = [self.x-10, self.y+-3]
+        vertex7 = [self.x-3, self.y-3]
+        vertex8 = [self.x-3, self.y-10]
+        vertex9 = [self.x+3, self.y-10]
+        vertex10 = [self.x+3, self.y-3]
+        vertex11 = [self.x+10, self.y-3]
+        vertex12 = [self.x+10, self.y+3]
 
-    def draw(self):
+        return [vertex1, vertex2, vertex3, vertex4, vertex5, vertex6, vertex7, vertex8, vertex9, vertex10, vertex11, vertex12]
 
-        self.hitbox = pygame.draw.polygon(screen, self.colors, self.vertices)
+    def draw(self, screen):
+
+        self.hitbox = pygame.draw.polygon(screen, self.color, self.vertices)
