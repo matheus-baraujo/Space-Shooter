@@ -301,8 +301,8 @@ class Sprites():
 
         if 1==random.randint(1, 300):
             powerup_type = random.choice((0,1))
-            x_position = random.randint(0, WIDTH)
-            y_position = random.randint(0, HEIGHT)
+            x_position = random.randint(20, WIDTH-20)
+            y_position = random.randint(80, HEIGHT-20)
             power_up = PowerUp(x_position, y_position, powerup_type)
             self.powerups.append(power_up)
 
