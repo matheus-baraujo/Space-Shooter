@@ -224,6 +224,7 @@ class Enemy(Spacecraft):
         self.shoot_count = 0
         self.shoot_max = shoot_max
         self.shoot_lock = False
+        self.rotation_direction = random.choice((1, -1))
 
     def rotate(self, x_player, y_player):
 
@@ -238,13 +239,21 @@ class Enemy(Spacecraft):
         rel_x, rel_y = x_player - self.x, y_player - self.y
         distance = math.sqrt(rel_x**2 + rel_y**2)
         if distance>self.max_distance:
-            displacement_x = self.speed*rel_x/distance
-            displacement_y = self.speed*rel_y/distance
-            self.translate_spacecraft(displacement_x, displacement_y)
+            displacement_x = self.speed*rel_x
+            displacement_y = self.speed*rel_y
         elif distance<self.min_distance:
-            displacement_x = -self.speed*rel_x/distance
-            displacement_y = -self.speed*rel_y/distance
-            self.translate_spacecraft(displacement_x, displacement_y)
+            displacement_x = -self.speed*rel_x
+            displacement_y = -self.speed*rel_y
+        else:
+            displacement_x = 0
+            displacement_y = 0
+        displacement_x += self.rotation_direction*self.speed*rel_y
+        displacement_y += -self.rotation_direction*self.speed*rel_x
+        length = math.sqrt(displacement_x**2 + displacement_y**2)
+        displacement_x /= length
+        displacement_y /= length
+        self.translate_spacecraft(displacement_x, displacement_y)
+
 
     def update(self, x_player, y_player):
 
