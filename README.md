@@ -2,6 +2,7 @@
 
 ### Como jogar:
 A única biblioteca não built-in usada é pygame. As intruções sobre como instalar podem ser encontradas em: https://www.pygame.org/wiki/GettingStarted.
+
 O jogo é inicializado rodando o arquivo main.py com o interpretador Python.
 
 ### Apresentção:
