@@ -308,7 +308,7 @@ class Sprites():
             enemy = create_enemy(self.score)
             self.enemies.append(enemy)
 
-        if 1==random.randint(1, 300):
+        if 1==random.randint(1, 300) and len(self.powerups)<2:
             powerup_type = random.choice((0,1))
             x_position = random.randint(20, WIDTH-20)
             y_position = random.randint(80, HEIGHT-20)
