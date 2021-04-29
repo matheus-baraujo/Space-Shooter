@@ -489,6 +489,11 @@ def gameplay_screen(screen, nickname, player_color, player_shape):
     lives = font.render("HP:", True, WHITE)
     points = font.render("Score:", True, WHITE)
 
+    if nickname.lower() == "t0pgun":
+        score += 3500
+    elif nickname.lower() == "d4rthv4der":    
+        score += 7500
+
     if(shape_selector == 0):
         player = Player(shape1, player_color)
     elif(shape_selector == 1):
@@ -685,18 +690,18 @@ def ending_screen(screen, nickname, score):
     if(score < 500):
         provoke = "Wanna try harder this time?"
         channel1.play(start_screen, -1)
+        channel1.set_volume(0.1)
     elif(score < 2500):
         provoke = "You are getting the hang of it, welcome to the Danger Zone!"
         reward = "Reward: nickname 'T0pGun'"
         channel1.play(danger_zone, -1)
+        channel1.set_volume(0.1)
     elif(score < 5000):
-        provoke = "You are good at this, try get a little higher"
-        reward = "Reward: nickname '4pollo11'" 
-    elif(score < 9000):
         provoke = "You are a TRUE master, try to conquer the galaxy"
-        reward = "Reward: nickname 'D4arthV4der'"
+        reward = "Reward: nickname 'D4rthV4der'"
         channel1.play(clone_wars, -1)
-    elif(score < 15000):
+        channel1.set_volume(0.1)
+    elif(score < 9000):
         provoke = "You are a TRUE WINNER"
 
     font = pygame.font.SysFont(None, 40)
@@ -704,6 +709,8 @@ def ending_screen(screen, nickname, score):
     message_rect = message.get_rect(center=(WIDTH/2, HEIGHT/2))
     provoke = font.render(provoke, True, LIGHTGREY)
     provoke_rect = provoke.get_rect(center=(WIDTH/2, HEIGHT/2+50))
+    reward = font.render(reward, True, LIGHTGREY)
+    reward_rect = reward.get_rect(center=(WIDTH/2, HEIGHT/2+100))
 
     clock = pygame.time.Clock()
     star_field_slow, star_field_medium, star_field_fast, star_field_shooting = generate_star_field(width, height)
@@ -765,6 +772,7 @@ def ending_screen(screen, nickname, score):
 
         screen.blit(message, message_rect)
         screen.blit(provoke, provoke_rect)
+        screen.blit(reward, reward_rect)
 
         pygame.display.update()
         clock.tick(30)
