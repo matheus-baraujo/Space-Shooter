@@ -189,7 +189,6 @@ class Player(Spacecraft):
             displacement_x = -(self.directions[2] - self.directions[3])*self.speed
             self.translate_spacecraft(displacement_x, displacement_y)
         
-       
     def rotate(self):
 
         mouse_x, mouse_y = pygame.mouse.get_pos()
@@ -328,6 +327,7 @@ class Sprites():
             if colliding_enemy_index==-1:
                 continue
             else:
+                self.score += 50
                 self.enemies[colliding_enemy_index].register_hit()
                 self.player_projectiles.remove(projectile)
                 del projectile
@@ -351,7 +351,6 @@ class Sprites():
             enemy.update(x_pos, y_pos)
             if enemy.is_dead():
                 self.enemies.remove(enemy)
-                self.score += 50
                 del enemy
                 continue
             if not enemy.shoot_lock:
