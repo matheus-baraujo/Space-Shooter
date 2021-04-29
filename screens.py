@@ -533,6 +533,10 @@ def gameplay_screen(screen, nickname, player_color, player_shape):
     lives = font.render("HP:", True, WHITE)
     points = font.render("Score:", True, WHITE)
 
+    if nickname == "T0pGun":
+        score += 3500
+    elif nickname == "St4rW4rs":    
+        score += 7500
 
     if(shape_selector == 0):
         player = Player(shape1, player_color)
@@ -541,16 +545,7 @@ def gameplay_screen(screen, nickname, player_color, player_shape):
     elif(shape_selector == 2):
         player = Player(shape3, player_color)    
 
-    sprite_holder = Sprites(player)
-
-    if nickname.lower() == "t0pgun":
-        score += 3500
-        sprite_holder.score += 3500
-    elif nickname.lower() == "St4rW4rs":    
-        score += 3500
-        sprite_holder.score += 7500
-
-
+    sprite_holder = Sprites(player, score)
 
     star_field_slow, star_field_medium, star_field_fast, star_field_shooting = generate_star_field(width, height)
 
@@ -574,6 +569,7 @@ def gameplay_screen(screen, nickname, player_color, player_shape):
 
     running = True
 
+    #used to control the number of shots per second of the player
     shoot_lock = False
     shoot_count = 0
 

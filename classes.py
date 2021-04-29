@@ -217,10 +217,11 @@ class Player(Spacecraft):
 class Enemy(Spacecraft):
 
 
-    def __init__(self, x_position, y_position, life, speed, shape_function, color, angle_speed, angle, max_distance_to_player, shoot_max):
+    def __init__(self, x_position, y_position, life, speed, shape_function, color, angle_speed, angle, max_distance_to_player, min_distance_to_player, shoot_max):
 
         Spacecraft.__init__(self, x_position, y_position, life, speed, shape_function, color, angle_speed, angle)
         self.max_distance = max_distance_to_player
+        self.min_distance = min_distance_to_player
         self.shoot_count = 0
         self.shoot_max = shoot_max
         self.shoot_lock = False
@@ -241,7 +242,7 @@ class Enemy(Spacecraft):
             displacement_x = self.speed*rel_x/distance
             displacement_y = self.speed*rel_y/distance
             self.translate_spacecraft(displacement_x, displacement_y)
-        elif distance<self.max_distance:
+        elif distance<self.min_distance:
             displacement_x = -self.speed*rel_x/distance
             displacement_y = -self.speed*rel_y/distance
             self.translate_spacecraft(displacement_x, displacement_y)
@@ -284,14 +285,14 @@ class Projectile():
 class Sprites():
 
 
-    def __init__(self, player):
+    def __init__(self, player, score):
 
         self.enemy_projectiles = []
         self.powerups = []
         self.player_projectiles = []
         self.enemies = []
         self.player = player
-        self.score = 0
+        self.score = score
 
     def genarate_objects(self):
 
