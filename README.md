@@ -1,4 +1,4 @@
-# Project name: Space Shooter (jogo/sistema interativo)
+# Space Shooter (Sistema Interativo)
 
 ### Como jogar:
 A única biblioteca não built-in usada é pygame. As intruções sobre como instalar podem ser encontradas em: https://www.pygame.org/wiki/GettingStarted.
