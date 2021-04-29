@@ -254,7 +254,6 @@ class Enemy(Spacecraft):
         displacement_y /= length
         self.translate_spacecraft(displacement_x, displacement_y)
 
-
     def update(self, x_player, y_player):
 
         self.move(x_player, y_player)

@@ -4,126 +4,6 @@ from constants import *
 from shapes import *
 from functions import *
 
-def generate_star_field(width, height):
-    width = width
-    height = height
-    
-    #create the locations of the stars for when we animate the background
-    star_field_slow = []
-    star_field_medium = []
-    star_field_fast = []
-    star_field_shooting = []
-
-    for slow_stars in range(60): #creating the locations of the stars
-        star_loc_x = random.randrange(0, width)
-        star_loc_y = random.randrange(0, height)
-        star_field_slow.append([star_loc_x, star_loc_y]) 
-
-    for medium_stars in range(40):
-        star_loc_x = random.randrange(0, width)
-        star_loc_y = random.randrange(0, height)
-        star_field_medium.append([star_loc_x, star_loc_y])
-
-    for fast_stars in range(20):
-        star_loc_x = random.randrange(0, width)
-        star_loc_y = random.randrange(0, height)
-        star_field_fast.append([star_loc_x, star_loc_y])
-    
-    for shooting_stars in range(1):
-        star_loc_x = random.randrange(0, width)
-        star_loc_y = random.randrange(0, height)
-        star_field_shooting.append([star_loc_x, star_loc_y])
-
-    return   star_field_slow, star_field_medium, star_field_fast, star_field_shooting  
-
-def animate_star_field(screen, star_field_slow, star_field_medium, star_field_fast, star_field_shooting, width, height):
-
-    width = width
-    height = height
-
-    star_field_slow = star_field_slow
-    star_field_medium = star_field_medium
-    star_field_fast = star_field_fast
-    star_field_shooting = star_field_shooting
-
-    #animating the background with stars
-    for star in star_field_slow:
-        star[1] += 1
-        if star[1] > height:
-            star[0] = random.randrange(0, width)
-            star[1] = random.randrange(-20, -5)
-        pygame.draw.circle(screen, DARKGREY, star, 3)
-
-    for star in star_field_medium:
-        star[1] += 4
-        if star[1] > height:
-            star[0] = random.randrange(0, width)
-            star[1] = random.randrange(-20, -5)
-        pygame.draw.circle(screen, CYAN, star, 2)
-
-    for star in star_field_fast:
-        star[1] += 8
-        if star[1] > height:
-            star[0] = random.randrange(0, width)
-            star[1] = random.randrange(-20, -5)
-        pygame.draw.circle(screen, YELLOW, star, 1)
-
-    for star in star_field_shooting:
-        star[0] += 16
-        star[1] += 16
-        if star[0] > width:
-            star[0] = random.randrange(-20, -5)
-            star[1] = random.randrange(0, height)
-        if star[1] > height:
-            star[0] = random.randrange(0, width)
-            star[1] = random.randrange(-20, -5)
-        pygame.draw.circle(screen, MAGENTA, star, 1)     
-
-
-def animate_star_field_combat(screen, star_field_slow, star_field_medium, star_field_fast, star_field_shooting, width, height):
-
-    width = width
-    height = height
-
-    star_field_slow = star_field_slow
-    star_field_medium = star_field_medium
-    star_field_fast = star_field_fast
-    star_field_shooting = star_field_shooting
-
-    #animating the background with stars
-    for star in star_field_slow:
-        star[1] += 1
-        if star[1] > height:
-            star[0] = random.randrange(0, width)
-            star[1] = random.randrange(-20, -5)
-        pygame.draw.circle(screen, DARKGREY, star, 1)
-
-    for star in star_field_medium:
-        star[1] += 4
-        if star[1] > height:
-            star[0] = random.randrange(0, width)
-            star[1] = random.randrange(-20, -5)
-        pygame.draw.circle(screen, CYAN, star, 1)
-
-    for star in star_field_fast:
-        star[1] += 8
-        if star[1] > height:
-            star[0] = random.randrange(0, width)
-            star[1] = random.randrange(-20, -5)
-        pygame.draw.circle(screen, YELLOW, star, 1)
-
-    for star in star_field_shooting:
-        star[0] += 16
-        star[1] += 16
-        if star[0] > width:
-            star[0] = random.randrange(-20, -5)
-            star[1] = random.randrange(0, height)
-        if star[1] > height:
-            star[0] = random.randrange(0, width)
-            star[1] = random.randrange(-20, -5)
-        pygame.draw.circle(screen, MAGENTA, star, 1)     
-
-
 def start_screen(screen):
     screen = screen
     height = pygame.display.Info().current_h
@@ -220,7 +100,6 @@ def start_screen(screen):
         clock.tick(30)
 
     return personalization_screen(screen)    
-
 
 def personalization_screen(screen):
     screen = screen
@@ -499,7 +378,6 @@ def personalization_screen(screen):
 
     return gameplay_screen(screen, text, color_output, shape_output)    
 
-
 def gameplay_screen(screen, nickname, player_color, player_shape):
     screen = screen
     height = pygame.display.Info().current_h
@@ -574,51 +452,37 @@ def gameplay_screen(screen, nickname, player_color, player_shape):
     shoot_count = 0
 
     while running:
-
         hp_pre_hit = player.life
-
         for event in pygame.event.get():
-            
             if event.type==pygame.QUIT and event.key == pygame.K_ESCAPE: 
                 sys.exit()
-
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 channel1.pause()
                 pause_screen(screen)
                 channel1.unpause()
-
             player.get_keyboard_input(event)
-
             if event.type == pygame.MOUSEBUTTONDOWN and not shoot_lock:
                 shoot_lock = True
                 channel2.play(laser_shot, 0)
                 channel2.fadeout(500)
                 sprite_holder.player_shoot()
-
         sprite_holder.genarate_objects()
         if shoot_lock:
             shoot_count += 1
             if shoot_count >= 25:
                 shoot_count = 0
                 shoot_lock = False
-
         sprite_holder.update()
         screen.fill(BLACK)
-
         animate_star_field_combat(screen, star_field_slow, star_field_medium, star_field_fast, star_field_shooting, width, height)  
-
         sprite_holder.draw(screen)
-
         screen.blit(top_screen_bar, (0,0))
         screen.blit(nick, (5, 15))
         screen.blit(lives, (500, 15))
-
         scored_points = str(sprite_holder.score)
         scored = font.render(scored_points, True, WHITE)
-
         screen.blit(points, (1000, 15))
         screen.blit(scored, (1100,15))
-
         if player.life == 5:
             screen.blit(life, (WIDTH/12 + 630, 10))
             screen.blit(life, (WIDTH/12 + 585, 10))
@@ -662,7 +526,6 @@ def gameplay_screen(screen, nickname, player_color, player_shape):
 
         if sprite_holder.player.is_dead():
             return ending_screen(screen, nickname, sprite_holder.score)
-
 
 def pause_screen(screen):
     screen = screen
@@ -712,7 +575,6 @@ def pause_screen(screen):
         pygame.display.update()
         clock.tick(30)
     
-
 def ending_screen(screen, nickname, score):
     screen = screen
     height = pygame.display.Info().current_h

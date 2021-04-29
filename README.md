@@ -4,6 +4,9 @@
 A única biblioteca não built-in usada é pygame. As intruções sobre como instalar podem ser encontradas em: https://www.pygame.org/wiki/GettingStarted.
 O jogo é inicializado rodando o arquivo main.py com o interpretador Python.
 
+### Apresentção:
+A apresentação está disponível em: https://docs.google.com/presentation/d/1Yti5AUVhoXSIAy7fmk0HSU1c0r-EnMb2AevJIMqTtKY/edit?usp=sharing
+
 ### Membros:
 - Matheus Batista de Araújo
 - Marcus Vinícius de Melo
@@ -17,7 +20,7 @@ O jogo é inicializado rodando o arquivo main.py com o interpretador Python.
     - Arquivo "shapes.py". Este arquivo inclui todos os formatos de nave disponiveis para o player e para os inimigos, os formatos são reservados para facilitar a distinção entre player e inimigos.
     - Arquivo "classes.py". Neste arquivo estão todas as classes responsáveis pelo gameplay. A classe Spacecraft serve como parent para as classes Player e Enemy. As classes Projectile e PowerUp servem para os demais objetos na tela. A classe Sprites serve como uma cápsula que gerencia tudo que é mostrado na tela em determinadoo momento.
     - Arquivo "screens.py". Neste arquivo estam localizadas as funções que "imprimem/exibem" o jogo na tela, assim como um simples andamento entre as telas, integrando os sons, imagens e inputs do player.
-    - Arquivo "functions.py". Contem a criação a função que gera inimigos durante o gameplay.
+    - Arquivo "functions.py". Contem várias funções que auxiliam em outras partes do código.
 
 ### Ferramentas:
 - Para elaboração e conclusão deste projeto utilizamos:
@@ -28,6 +31,12 @@ O jogo é inicializado rodando o arquivo main.py com o interpretador Python.
         - sys : Necessária para funcionalidades de sistema que fossem necessárias.
         - math : Utlizada para cálculos de ângulos e outros parâmetros ao longo do projeto.
         - random : Utilizada para geração de valores aleatórios necessários.
+
+### Coletáveis:
+Há 3 coisas a serem coletadas no jogo:
+- Pontução: O Player ganha 50 pontos sempre que um inimigo é acertado.
+- Powerup de vida: O Player ganha uma vida quando toca uma cruz vermelha. O máximo de vidas é 5.
+- Powerup de escudo: O Player ganha um escudo, que irá negar o próximo dano, sempre que toca numa cruz azul.
 
 ### Divisão de tarefas:
 - A divisão de tarefas foi sendo feita a medida que diferentes partes do projeto estavam sendo concluídas, com a intenção de agilizar o desenvolvimento do projeto.
@@ -49,4 +58,5 @@ O jogo é inicializado rodando o arquivo main.py com o interpretador Python.
 - Gerar uma animação/movimento ao background criado para as telas.
 - Criar transições agradáveis entre as telas, para não ocorrerem surgimentos de tela repentinos ou ocorresse muito delay.
 - Formatar as imagens e ajusta-las para tamanhos corretos, posicionar as imagens em posições relativas ao tamanho da tela (visando futura modificação do tamanho da tela).
-- Integrar sons a todas as telas e a alguns eventos e ações do player e inimigos.          
+- Integrar sons a todas as telas e a alguns eventos e ações do player e inimigos.
+- Aplicar Geometria Analítica na movimentação dos objetos na tela.       
