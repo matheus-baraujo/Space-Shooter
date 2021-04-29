@@ -18,7 +18,7 @@ def create_enemy(score):
         colors = RED, ORANGE
 
     color = random.choice(colors)
-    speed = 10*random.uniform(level/10, level/5)
+    speed = random.uniform(level/10, level/5)
     angle_speed = min((1, random.uniform(level/20, level/10)))
     max_distance = random.randint(150, 300)
     min_distance = max_distance - 50
