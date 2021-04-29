@@ -80,6 +80,50 @@ def animate_star_field(screen, star_field_slow, star_field_medium, star_field_fa
         pygame.draw.circle(screen, MAGENTA, star, 1)     
 
 
+def animate_star_field_combat(screen, star_field_slow, star_field_medium, star_field_fast, star_field_shooting, width, height):
+
+    width = width
+    height = height
+
+    star_field_slow = star_field_slow
+    star_field_medium = star_field_medium
+    star_field_fast = star_field_fast
+    star_field_shooting = star_field_shooting
+
+    #animating the background with stars
+    for star in star_field_slow:
+        star[1] += 1
+        if star[1] > height:
+            star[0] = random.randrange(0, width)
+            star[1] = random.randrange(-20, -5)
+        pygame.draw.circle(screen, DARKGREY, star, 1)
+
+    for star in star_field_medium:
+        star[1] += 4
+        if star[1] > height:
+            star[0] = random.randrange(0, width)
+            star[1] = random.randrange(-20, -5)
+        pygame.draw.circle(screen, CYAN, star, 1)
+
+    for star in star_field_fast:
+        star[1] += 8
+        if star[1] > height:
+            star[0] = random.randrange(0, width)
+            star[1] = random.randrange(-20, -5)
+        pygame.draw.circle(screen, YELLOW, star, 1)
+
+    for star in star_field_shooting:
+        star[0] += 16
+        star[1] += 16
+        if star[0] > width:
+            star[0] = random.randrange(-20, -5)
+            star[1] = random.randrange(0, height)
+        if star[1] > height:
+            star[0] = random.randrange(0, width)
+            star[1] = random.randrange(-20, -5)
+        pygame.draw.circle(screen, MAGENTA, star, 1)     
+
+
 def start_screen(screen):
     screen = screen
     height = pygame.display.Info().current_h
@@ -206,7 +250,7 @@ def personalization_screen(screen):
     font = pygame.font.SysFont('none', 50)
     text = "Anonymous"
     input_active = False
-    text_color = (WHITE)
+    text_color = (WHITE) #default
 
     #static elements
     player_customization = pygame.image.load(r'resources/player_customization.png') # 473 x 59 
@@ -223,7 +267,7 @@ def personalization_screen(screen):
     title_color = pygame.image.load(r'resources/title_color.png') # 174 x 81
     title_color = pygame.transform.scale(title_color, (124, 40)) # adjusting size
     title_color = title_color.convert_alpha()
-    color_output = WHITE #default of 5 colors [WHITE, CYAN, MAGENTA, ORANGE, RED]
+    color_output = WHITE #default of 5 colors [WHITE, CYAN, MAGENTA, LAWNGREEN, GOLDENROD]
     
     #color selection
     color_option1 = pygame.Surface((40,40))
@@ -245,13 +289,13 @@ def personalization_screen(screen):
     highlight3.set_alpha(0)
 
     color_option4 = pygame.Surface((40,40))
-    color_option4.fill(ORANGE)
+    color_option4.fill(LAWNGREEN)
     highlight4 = pygame.Surface((50,50))
     highlight4.fill(YELLOW)
     highlight4.set_alpha(0)
 
     color_option5 = pygame.Surface((40,40))
-    color_option5.fill(RED)
+    color_option5.fill(GOLDENROD)
     highlight5 = pygame.Surface((50,50))
     highlight5.fill(YELLOW)
     highlight5.set_alpha(0)
@@ -356,7 +400,7 @@ def personalization_screen(screen):
                 highlight5.set_alpha(0)
                 channel2.play(customizing_sound, 0)
             if event.type == pygame.MOUSEBUTTONDOWN and not locked_controls and WIDTH/11 + 384<=mouse_coord[0]<=WIDTH/11 + 424 and HEIGHT/1.8 + 5<=mouse_coord[1]<=HEIGHT/1.8 + 45:        
-                color_output = ORANGE
+                color_output = LAWNGREEN
                 highlight1.set_alpha(0)
                 highlight2.set_alpha(0)
                 highlight3.set_alpha(0)
@@ -364,7 +408,7 @@ def personalization_screen(screen):
                 highlight5.set_alpha(0)
                 channel2.play(customizing_sound, 0)
             if event.type == pygame.MOUSEBUTTONDOWN and not locked_controls and WIDTH/11 + 434<=mouse_coord[0]<=WIDTH/11 + 474 and HEIGHT/1.8 + 5<=mouse_coord[1]<=HEIGHT/1.8 + 45:        
-                color_output = RED
+                color_output = GOLDENROD
                 highlight1.set_alpha(0)
                 highlight2.set_alpha(0)
                 highlight3.set_alpha(0)
@@ -489,10 +533,6 @@ def gameplay_screen(screen, nickname, player_color, player_shape):
     lives = font.render("HP:", True, WHITE)
     points = font.render("Score:", True, WHITE)
 
-    if nickname.lower() == "t0pgun":
-        score += 3500
-    elif nickname.lower() == "d4rthv4der":    
-        score += 7500
 
     if(shape_selector == 0):
         player = Player(shape1, player_color)
@@ -502,6 +542,15 @@ def gameplay_screen(screen, nickname, player_color, player_shape):
         player = Player(shape3, player_color)    
 
     sprite_holder = Sprites(player)
+
+    if nickname.lower() == "t0pgun":
+        score += 3500
+        sprite_holder.score += 3500
+    elif nickname.lower() == "St4rW4rs":    
+        score += 3500
+        sprite_holder.score += 7500
+
+
 
     star_field_slow, star_field_medium, star_field_fast, star_field_shooting = generate_star_field(width, height)
 
@@ -560,7 +609,7 @@ def gameplay_screen(screen, nickname, player_color, player_shape):
         sprite_holder.update()
         screen.fill(BLACK)
 
-        animate_star_field(screen, star_field_slow, star_field_medium, star_field_fast, star_field_shooting, width, height)  
+        animate_star_field_combat(screen, star_field_slow, star_field_medium, star_field_fast, star_field_shooting, width, height)  
 
         sprite_holder.draw(screen)
 
@@ -698,7 +747,7 @@ def ending_screen(screen, nickname, score):
         channel1.set_volume(0.1)
     elif(score < 5000):
         provoke = "You are a TRUE master, try to conquer the galaxy"
-        reward = "Reward: nickname 'D4rthV4der'"
+        reward = "Reward: nickname 'St4rW4rs'"
         channel1.play(clone_wars, -1)
         channel1.set_volume(0.1)
     elif(score < 9000):

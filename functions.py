@@ -7,12 +7,17 @@ def create_enemy(score):
 
     level = int(score/1500)
     level = max((1, level))
-    colors = GREEN, PURPLE, BLUE
     shape = enemy_shape
-    color = random.choice(colors)
     x_position = random.randrange(10, WIDTH-10)
     y_position = random.randrange(60, HEIGHT-10)
     life = random.randint(1, int(level))
+    
+    if(life <= 1):
+        colors = GREEN, PURPLE, BLUE
+    else:
+        colors = RED, ORANGE
+
+    color = random.choice(colors)
     speed = random.uniform(0.2, 0.5) * level
     angle_speed = random.uniform(0.1, 0.2) * level
     max_distance = random.randint(150, 400)
