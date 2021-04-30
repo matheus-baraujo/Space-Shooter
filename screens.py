@@ -608,7 +608,7 @@ def ending_screen(screen, nickname, score):
         reward = "Reward: nickname 'St4rW4rs'"
         channel1.play(clone_wars, -1)
         channel1.set_volume(0.1)
-    elif(score < 9000):
+    else:
         provoke = "You are a TRUE WINNER"
 
     font = pygame.font.SysFont(None, 40)
